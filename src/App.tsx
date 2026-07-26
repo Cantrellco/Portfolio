@@ -5,6 +5,7 @@ import { setupChoreography } from './lib/choreography'
 import { journey } from './lib/journey'
 import { Flagship } from './dom/Flagship'
 import { Work } from './dom/Work'
+import { BuildLog } from './dom/BuildLog'
 
 /** Generic copy section rendered from the journey definition. */
 function JourneySection({ id }: { id: string }) {
@@ -52,7 +53,7 @@ export default function App() {
 
         <Flagship />
 
-        <JourneySection id="build-log" />
+        <BuildLog />
         <Work />
         <JourneySection id="receipts" />
         <JourneySection id="process" />
