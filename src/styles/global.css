@@ -168,6 +168,69 @@ body {
   max-width: 30rem;
 }
 
+/* ---------- flagship (S2) ---------- */
+.flagship {
+  position: relative;
+  min-height: 340svh;
+}
+
+.flagship__sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding: 0 var(--space-gutter);
+}
+
+.flagship__sticky .scene__title {
+  font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+  margin-bottom: 2rem;
+}
+
+.flagship__callouts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  max-width: 26rem;
+}
+
+.flagship__callout {
+  border-left: 2px solid var(--hairline);
+  padding: 0.55rem 0 0.55rem 1.1rem;
+  opacity: 0.38;
+  transition:
+    opacity 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.flagship__callout.is-active {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.flagship__calloutTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.005em;
+  margin: 0 0 0.25rem;
+}
+
+.flagship__calloutCopy {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 24rem;
+}
+
+.flagship__callout:not(.is-active) .flagship__calloutCopy {
+  display: none;
+}
+
 /* ---------- a11y ---------- */
 .visually-hidden {
   position: absolute;

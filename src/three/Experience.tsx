@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { CameraRig } from './CameraRig'
-import { HeroScene } from './scenes/HeroScene'
+import { DevicesScene } from './scenes/DevicesScene'
 import { registerInvalidate } from '../lib/frame'
 
 /** Registers the canvas's invalidate() with the shared frame bridge. */
@@ -29,7 +29,7 @@ export function Experience() {
         <fog attach="fog" args={['#0a0b0d', 10, 26]} />
         <FrameBridge />
         <CameraRig />
-        <HeroScene />
+        <DevicesScene />
       </Canvas>
     </div>
   )
