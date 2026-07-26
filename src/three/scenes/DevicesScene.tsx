@@ -9,8 +9,6 @@ import {
   useTexture,
 } from '@react-three/drei'
 import * as THREE from 'three'
-import { PhoneModel } from '../devices/PhoneModel'
-import { WatchModel } from '../devices/WatchModel'
 import { sceneState } from '../../lib/sceneState'
 import { holoDiscTexture } from '../utils/deviceGeometry'
 
@@ -28,21 +26,17 @@ function Backdrop() {
   }, [texture])
 
   useFrame(() => {
-    // Hero: column centered behind the reactor. Flagship: column slides
-    // right behind the device so copy owns the left half. Later: dims out.
+    // Full presence behind the hub's reactor, dims once the visitor scrolls
+    // into the system screens.
     if (!mat.current || !mesh.current) return
     const p = sceneState.progress
-    const slide = THREE.MathUtils.smoothstep(p, 0.07, 0.16)
-    mesh.current.position.x = THREE.MathUtils.lerp(1.5, 5.2, slide)
-    const fade = THREE.MathUtils.smoothstep(p, 0.34, 0.52)
-    mat.current.opacity = THREE.MathUtils.lerp(0.92, 0.14, fade)
+    const fade = THREE.MathUtils.smoothstep(p, 0.1, 0.28)
+    mat.current.opacity = THREE.MathUtils.lerp(0.9, 0.12, fade)
   })
 
   return (
-    // scale-x flipped: the plate's light column lands behind the devices
-    // (right), leaving the dark side behind the headline.
-    <mesh ref={mesh} position={[1.5, 1.6, -15]} scale={[-1, 1, 1]}>
-      <planeGeometry args={[46, 25.7]} />
+    <mesh ref={mesh} position={[0, 0.4, -15]}>
+      <planeGeometry args={[64, 35.7]} />
       <meshBasicMaterial
         ref={mat}
         map={texture}
@@ -100,7 +94,7 @@ function HoloRig() {
   })
 
   return (
-    <group position={[1.4, 0, 0.4]}>
+    <group position={[0, 0, 0.4]}>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.55, 0]}>
         <circleGeometry args={[2.9, 48]} />
         <meshBasicMaterial
@@ -138,33 +132,17 @@ function HoloRig() {
 }
 
 /**
- * The Keynote stage: both devices + studio light rig + holo staging.
- * Devices live near the origin; the camera travels to them (CameraRig).
+ * The hub stage: holo atmosphere behind the DOM constellation — backdrop
+ * plate, pedestal rings, AI-generated props, studio light rig.
  */
 export function DevicesScene() {
-  const floatScale = sceneState.reducedMotion ? 0.25 : 1
-
   return (
     <>
       <Suspense fallback={null}>
         <Backdrop />
         <HoloRig />
-        <Prop url="/assets/props/dumbbell.glb" position={[-0.7, -2.05, 1.5]} size={1.0} rotationY={0.5} />
-        <Prop url="/assets/props/cup.glb" position={[4.3, -2.15, 1.2]} size={0.65} rotationY={-0.4} />
-        <Float
-          speed={1.1}
-          rotationIntensity={0.08 * floatScale}
-          floatIntensity={0.3 * floatScale}
-        >
-          <PhoneModel />
-        </Float>
-        <Float
-          speed={1.4}
-          rotationIntensity={0.12 * floatScale}
-          floatIntensity={0.4 * floatScale}
-        >
-          <WatchModel />
-        </Float>
+        <Prop url="/assets/props/dumbbell.glb" position={[-3.6, -2.05, 1.5]} size={1.0} rotationY={0.5} />
+        <Prop url="/assets/props/cup.glb" position={[3.9, -2.15, 1.2]} size={0.65} rotationY={-0.4} />
 
         {/* procedural studio reflections for the metals — no HDR fetch */}
         <Environment resolution={256}>

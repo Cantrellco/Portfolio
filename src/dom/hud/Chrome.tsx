@@ -2,11 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { scrollToSection } from '../../lib/scroll'
 
 const SECTIONS = [
-  { href: '#hero', label: 'OVERVIEW' },
-  { href: '#flagship', label: 'FLAGSHIP' },
-  { href: '#build-log', label: 'BUILD LOG' },
-  { href: '#work', label: 'PROJECTS' },
-  { href: '#receipts', label: 'RECEIPTS' },
+  { href: '#hub', label: 'HUB' },
+  { href: '#build-log', label: 'SYSTEM LOG' },
+  { href: '#receipts', label: 'TELEMETRY' },
   { href: '#process', label: 'COMMS' },
 ]
 
