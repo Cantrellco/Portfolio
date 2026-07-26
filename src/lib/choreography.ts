@@ -27,7 +27,7 @@ export function setupChoreography(): () => void {
           onUpdate: requestFrame,
         },
       })
-      .to(deviceState.phone, { x: 1.75, y: 0, z: 0.5, ry: -0.06, rx: 0, rz: 0, duration: 2 })
+      .to(deviceState.phone, { x: 1.75, y: 0, z: 0.5, ry: -0.06, rx: 0, rz: 0, scale: 1, duration: 2 })
       .to(deviceState.phone, { ry: 0.09, y: 0.08, duration: 2.5 })
       .to(deviceState.phone, { ry: -0.05, y: -0.04, duration: 2.5 })
       .to(deviceState.phone, { x: 1.05, y: 0.18, z: 0.1, ry: 0.12, scale: 0.94, duration: 2 })
@@ -45,7 +45,7 @@ export function setupChoreography(): () => void {
           onUpdate: requestFrame,
         },
       })
-      .to(deviceState.watch, { x: 2.6, y: -0.55, z: 1.3, ry: 0.18, rx: 0.04, scale: 1, duration: 3 })
+      .to(deviceState.watch, { x: 2.6, y: -0.55, z: 1.3, ry: 0.18, rx: 0.04, scale: 1.0, duration: 3 })
       .to(deviceState.watch, { x: 2.45, y: -0.5, z: 1.0, duration: 2 })
 
     // After the flagship: devices exit stage left/right and fall back into

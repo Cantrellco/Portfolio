@@ -22,15 +22,18 @@ import { holoDiscTexture } from '../utils/deviceGeometry'
 function Backdrop() {
   const texture = useTexture('/assets/env/studio.jpg')
   const mat = useRef<THREE.MeshBasicMaterial>(null)
+  const mesh = useRef<THREE.Mesh>(null)
   useMemo(() => {
     texture.colorSpace = THREE.SRGBColorSpace
   }, [texture])
 
   useFrame(() => {
-    // Full presence through hero + flagship, then dims so later sections'
-    // copy owns the frame.
-    if (!mat.current) return
+    // Hero: column centered behind the reactor. Flagship: column slides
+    // right behind the device so copy owns the left half. Later: dims out.
+    if (!mat.current || !mesh.current) return
     const p = sceneState.progress
+    const slide = THREE.MathUtils.smoothstep(p, 0.07, 0.16)
+    mesh.current.position.x = THREE.MathUtils.lerp(1.5, 5.2, slide)
     const fade = THREE.MathUtils.smoothstep(p, 0.34, 0.52)
     mat.current.opacity = THREE.MathUtils.lerp(0.92, 0.14, fade)
   })
@@ -38,7 +41,7 @@ function Backdrop() {
   return (
     // scale-x flipped: the plate's light column lands behind the devices
     // (right), leaving the dark side behind the headline.
-    <mesh position={[1.5, 1.6, -15]} scale={[-1, 1, 1]}>
+    <mesh ref={mesh} position={[1.5, 1.6, -15]} scale={[-1, 1, 1]}>
       <planeGeometry args={[46, 25.7]} />
       <meshBasicMaterial
         ref={mat}

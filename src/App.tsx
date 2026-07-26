@@ -7,9 +7,10 @@ import { sceneState } from './lib/sceneState'
 import { Flagship } from './dom/Flagship'
 import { Work } from './dom/Work'
 import { BuildLog } from './dom/BuildLog'
-import { Nav } from './dom/Nav'
 import { Receipts } from './dom/Receipts'
 import { Process } from './dom/Process'
+import { HeroDashboard } from './dom/HeroDashboard'
+import { StatusBar, Rail, ParticleField } from './dom/hud/Chrome'
 
 /**
  * Page shell: DOM copy (crawlable, LCP = hero headline) over the fixed canvas.
@@ -25,15 +26,23 @@ export default function App() {
     const d = sceneState.reducedMotion ? 0.3 : 1
     const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } })
     entrance
-      .fromTo('.hero__eyebrow', { opacity: 0 }, { opacity: 1, duration: d * 0.5 })
-      .fromTo('.hero__title', { y: 44 * d, opacity: 0 }, { y: 0, opacity: 1, duration: d }, '-=0.2')
       .fromTo(
-        '.hero__sub',
-        { y: 24 * d, opacity: 0 },
-        { y: 0, opacity: 1, duration: d * 0.8 },
-        '-=0.55',
+        '.herohud__center',
+        { opacity: 0, scale: 0.94 },
+        { opacity: 1, scale: 1, duration: d },
       )
-      .fromTo('.nav', { opacity: 0 }, { opacity: 1, duration: d * 0.6 }, '-=0.4')
+      .fromTo(
+        '.hudpanel',
+        { opacity: 0, y: 18 * d },
+        { opacity: 1, y: 0, duration: d * 0.7, stagger: 0.09 },
+        '-=0.5',
+      )
+      .fromTo(
+        ['.statusbar', '.rail'],
+        { opacity: 0 },
+        { opacity: 1, duration: d * 0.6 },
+        '-=0.4',
+      )
 
     return () => {
       entrance.kill()
@@ -45,20 +54,11 @@ export default function App() {
   return (
     <>
       <Experience />
-      <Nav />
+      <ParticleField />
+      <StatusBar />
+      <Rail />
       <main className="page">
-        <header className="hero" id="hero">
-          <p className="hero__eyebrow">
-            <span className="pulse" aria-hidden="true" />
-            SYSTEM ONLINE — PORTFOLIO // 2026
-          </p>
-          <h1 className="hero__title">
-            I ship Apple-grade software at <em>AI speed</em>.
-          </h1>
-          <p className="hero__sub">
-            Cody Cantrell — self-taught, AI-augmented developer. Built solo. Live on the App Store.
-          </p>
-        </header>
+        <HeroDashboard />
 
         <Flagship />
 
