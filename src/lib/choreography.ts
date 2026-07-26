@@ -48,6 +48,22 @@ export function setupChoreography(): () => void {
       .to(deviceState.watch, { x: 2.6, y: -0.55, z: 1.3, ry: 0.18, rx: 0.04, scale: 1, duration: 3 })
       .to(deviceState.watch, { x: 2.45, y: -0.5, z: 1.0, duration: 2 })
 
+    // After the flagship: devices exit stage left/right and fall back into
+    // the fog so later scenes own the frame. They return for the finale later.
+    gsap
+      .timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '#build-log',
+          start: 'top bottom',
+          end: '40% bottom',
+          scrub: 0.7,
+          onUpdate: requestFrame,
+        },
+      })
+      .to(deviceState.phone, { x: -6.5, y: 0.6, z: -6, ry: 0.6, scale: 0.9, duration: 3 })
+      .to(deviceState.watch, { x: 7, y: -1.2, z: -7, ry: -0.7, duration: 3 }, '<')
+
     // Feature step → screenshot + DOM callout highlight.
     ScrollTrigger.create({
       trigger: '#flagship',

@@ -231,6 +231,100 @@ body {
   display: none;
 }
 
+/* ---------- work (S4, DOM tier) ---------- */
+.work__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  max-width: 72rem;
+  margin-top: 1.5rem;
+}
+
+.work__card {
+  background: var(--ink);
+  padding: 1.6rem 1.5rem 1.4rem;
+  transition: background 0.35s ease;
+}
+
+.work__card:hover {
+  background: var(--ink-raise);
+}
+
+.work__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0 0 0.3rem;
+}
+
+.work__tagline {
+  margin: 0 0 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.work__tech {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0 0 0.9rem;
+}
+
+.work__tech li {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 0.18rem 0.6rem;
+}
+
+.work__study summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.work__study dl {
+  margin: 0.8rem 0 0;
+  font-size: 0.88rem;
+}
+
+.work__study dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-top: 0.7rem;
+}
+
+.work__study dd {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.work__study dd ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.work__study a {
+  display: inline-block;
+  margin-top: 0.8rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
 /* ---------- a11y ---------- */
 .visually-hidden {
   position: absolute;
