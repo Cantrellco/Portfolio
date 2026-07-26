@@ -1,0 +1,474 @@
+[
+  {
+    "key": "research:award-3d-sites",
+    "result": {
+      "summary": "Research done. Pattern clear across Awwwards/FWA/CSSDA 2024-2026: top 3D sites win on ONE defended concept executed with restraint, not effect piles. Awwwards jury scores Design 40% / Usability 30% / Creativity 20% / Content 10% — flashy-but-frustrating loses to polished-and-navigable. Playable game-sites won Site of the Year two years running (Igloo Inc 2024, Messenger 2025). Dominant 2025-26 stack: Three.js or React Three Fiber + GSAP ScrollTrigger (GSAP went free in 2025) + Lenis smooth scroll, all driven off one shared gsap.ticker loop; WebGPU + TSL is the rising edge. \"$50k feel\" comes from art direction, lighting craft, editorial typography, choreographed loading sequences, synthesized/audio-reactive sound, lerp/spring micro-interactions, and 60fps on mid-range phones — cheap feel comes from tutorial-template scenes, competing focal points, >100 draw calls, oversized textures, no mobile fallback, no reduced-motion path.",
+      "key_findings": [
+        "STANDOUT EXAMPLES — bruno-simon.com: drivable-car portfolio game; Three.js render + Cannon.js physics on primitive proxy shapes mirroring detailed Blender meshes, custom shader materials for nearly everything; Awwwards Site of the Month Nov 2019; famous because playful game-feel + physics, proved browser handles game-like UX.",
+        "igloo.inc (Awwwards Site of the Year 2024): Three.js + three-mesh-bvh + Svelte + GSAP + Vite; procedural crystal-growth algorithm (grow ice inside a cube, unique every visit), custom VDB-to-browser volume-data exporter compressed smaller than a typical image, fluid sim, custom geometry exporters, shaders compiled in background to cut first-load; Houdini/Blender asset pipeline. Detailed Awwwards case study exists (awwwards.com/igloo-inc-case-study.html).",
+        "Messenger (Awwwards Site of the Year 2025, by Vicente Lucendo + Michael Sungaila, published by Abeto, music Kevin Colombin): tiny WebGL planet delivery game — Three.js, real-time physics, character controller, original score. Signal: full playable browser games now win the top annual award, back-to-back years.",
+        "lusion.co v3: research-grade particles/materials; case study trick — cloth vertex-animation baked to 16-bit integer textures decoded in shader, 983KB desktop / 246KB mobile. Scout Motors = Awwwards E-commerce of the Year 2025 (3D product configurator paths).",
+        "More 2025-26 SOTD-tier: Cartier Watches & Wonders (GLSL + GSAP + Lenis; six self-contained 3D 'alcoves', one scene per product; Web Audio score; hidden gesture easter eggs) — Hubtown by Unseen Studio, hubtown.co.in (mouse-reveal: cursor uncovers geometry detail + lighting on a monolith over reflective landscape) — Iventions, iventions.com (SOTD + Developer Award; each project lit like a spotlit installation; 'WebGL for atmosphere, not spectacle') — Oryzo, oryzo.ai (inertial hero product render, true z-axis depth scroll, orbiting camera) — IVRESS, brand.ivress.co.jp (WebGPURenderer with WebGL fallback via TSL) — Shopify Editions Spring 2026 (scroll-sequenced scene choreography, particle-dispersing typography, depth-layered panels) — Explore Primland (terrain flythrough, fog, scroll-driven cinematic aerial camera) — minhpham.design (SOTD; GSAP motion layered over Three.js, 3D frames the work, never overwhelms it) — Jordan Breton (FWA SOTD 2025-10-02; floating island, grass/waterfall/butterflies, fixed-point camera navigation) — Lando Norris site (kinetic lime-green typography, rotating 3D helmet tracks cursor) — phantom.land (3D face particle system) — Samsy's WebGPU cyberpunk portfolio (120+ fps) — Codrops 2025 year-in-review names Stas Bondar '25, Aurel's Grand Theater, The Monolith (13-scene WebGL epic), Forged.build (WebGPU), UntilLabs (living particle system), Martin Laxenaire (portfolio-as-game).",
+        "ARCHITECTURE GOLD (Trionn, Codrops July 2026): one shared gsap.ticker drives everything — Lenis scroll, ScrollTrigger-scrubbed timelines, on-demand Three.js renders (render only on scroll/interaction, not continuous rAF). Unified normalized state: hover/hold/scroll all feed one 0-1 value (e.g. explodeAmt via Math.max) so interaction modes never fight. Scene warming = compile shaders + upload textures before section is visible. Raycast against real 3D geometry for hover, not DOM. SDF rounded corners in fragment shader instead of transparent PNGs. Depth-map parallax on a single textured plane. fBm + domain-warp procedural fog that reacts to Web Audio AnalyserNode frequency data. Sounds synthesized live (3 detuned sine oscillators through feedback delay = flute-like pluck), not prerecorded. 371-frame image sequence preloaded via requestIdleCallback in batches of 20 with img.decode(). Mouse follow via lerp factor 0.06 = 'magnetic' feel; UI springs via exponential decay (velY[i] * 0.65) not tweens. prefers-reduced-motion SCALES motion down rather than disabling.",
+        "Stefan Vitasović 2025 portfolio (Codrops case study): custom virtual-scroll controller + Lethargy for intent detection; 60fps videos on Cloudflare R2 used as WebGL textures with LED-overlay + noise-grain fragment shader (hides compression artifacts, unifies art direction across all projects); per-character text splits with masked 'glass parallax' assembly; Framer Motion AnimatePresence page crossfades wired to scroll controller; only visible section gets transforms; mobile drops the WebGL layer entirely for native HTML5 video while keeping motion language.",
+        "RECURRING WOW PATTERNS: (1) scroll-as-timeline storytelling — each scroll beat is a staged enter/hold/exit, 'treat scroll like an editor treats a timeline'; (2) full-screen GLSL shader moments — dissolves, metaballs, dithering/Bayer shaders, refraction+transmission glass, kinetic imagery, wavy GLSL carousels; (3) GPU particle systems (dispersing typography, face particles, living backgrounds); (4) physics toys (Cannon.js/Rapier) for play; (5) cursor-reactive scenes (mouse-reveal lighting, helmet/head tracking, magnetic lerp); (6) seamless WebGL page transitions (no hard cuts — transitions carry meaning between states); (7) 3D device mockups with app UI as live texture — the exact Apple-style iPhone scroll pattern; reference repo dgreenheck/nextjs-3d-scroll-animations (Next.js 15 + R3F + GSAP) and Codrops 'Interactive 3D Device Showcase with Threepipe'; builder.io has an 'Recreating Apple-style 3D scroll animations' writeup; (8) custom camera choreography — z-depth dives, fixed-point nav, orbiting hero cams; (9) Web Audio as a layer (score + synthesized SFX + audio-reactive shaders).",
+        "LIBRARY LANDSCAPE 2025-26: GSAP (free since 2025) + ScrollTrigger is the de-facto motion spine; SplitText for char/word/line reveals, MorphSVG for morphs; Lenis (darkroomengineering) standard for smooth scroll synced to GSAP ticker; React Three Fiber + drei for React shops, vanilla Three.js + Svelte/Vue for the very top studios; three-mesh-bvh for fast raycasts; Framer Motion for React page transitions; theatre.js barely shows up in 2025-26 winner writeups — GSAP timelines won that war; Rive rising for 2D smart animations; physics = cannon-es or Rapier; WebGPU + TSL (Three.js Shading Language, compiles to both WebGPU and WebGL backends) is THE forward-looking flex — IVRESS, Forged.build, Samsy already shipping it.",
+        "WHAT SEPARATES $50K FROM AMATEUR: hontran.dev formula = 'strong specific art direction + directed meaningful motion + ~60fps on a mid-range phone'. Metabole: 'a single, defended idea — not a pile of trends'; scene-based logic with quiet moments beats every-section-is-the-hero. Static frames must work with animation off. Awwwards weights Usability 30% — navigation clarity beats spectacle. Craft tells: choreographed preloader that warms the scene (never a bare percentage), editorial typography as identity (Obys-style), lighting quality (Iventions won a Developer Award mostly on lighting), consistent visual treatment unifying all portfolio pieces (Vitasović's grain shader), sound with a visible toggle, reduced-motion path (reviewers check it), custom easing/springs everywhere (nothing linear, nothing default), will-change cleanup after animations.",
+        "MISTAKES THAT READ CHEAP OR KILL PERFORMANCE: >100 draw calls (instancing/batching cuts 90%+); oversized textures and 2048 shadow maps (drop to 1024); no geometry/material disposal = memory leaks over a session; blocking multi-second loads with no sequence; WebGL-before-HTML hurts SEO — SSR the content (Next.js recommended); multiple competing focal points; effects sprinkled everywhere diluting the one hero moment; scroll-jacking with bad pacing; shipping the desktop scene to phones instead of a lighter path (mobile-first 'a pre-requisite for this format'); no prefers-reduced-motion; tutorial-template look (the adrianhajdin/JavaScript-Mastery iPhone clone is now a commodity — jury recognizes it instantly); default OrbitControls demo feel; untested mid-range Android under CPU/network throttling.",
+        "BUSINESS SIGNAL: immersive elements correlate with ~40% higher average session time (Metabole). Focused immersive landing page = 8-12 weeks of studio effort — an AI-augmented solo dev shipping that quality IS the portfolio's proof-of-claim."
+      ],
+      "recommendations": [
+        "Pick ONE defended concept and budget everything around it. Strongest fit for Cody: an Apple-keynote-style scroll story where a 3D iPhone + Apple Watch (Workout Buddy running as screen textures) travel through choreographed scenes — plays directly to the app being an iOS/watchOS product and mirrors the proven Oryzo/Shopify-Editions/Cartier 'scene per product' pattern. Smaller projects live in 'alcoves', not competing hero moments.",
+        "Stack: Next.js (SSR for SEO + crawlable content) + React Three Fiber + drei + GSAP ScrollTrigger + SplitText + Lenis, one shared gsap.ticker driving scroll, timelines, and on-demand Three.js renders (Trionn architecture). Framer Motion AnimatePresence for page transitions. Start from dgreenheck/nextjs-3d-scroll-animations as the device-scroll reference. Add a WebGPU/TSL touch (with WebGL fallback) as a technical flex.",
+        "Steal specific premium moves: cursor lerp at ~0.06 for magnetic hover; raycast hover on real geometry; SDF-masked rounded cards in-shader; one unifying fragment-shader treatment (e.g. grain/LED overlay) across all project media; particle-dispersing typography for section titles; a choreographed preloader that doubles as scene warm-up (compile shaders + decode textures behind it, requestIdleCallback batches).",
+        "Sound design = cheap differentiation: synthesized Web Audio SFX (detuned oscillators + feedback delay) + optional score with a visible mute toggle, and make one shader audio-reactive via AnalyserNode.",
+        "Performance is the award gate: budget <100 draw calls, 1024 shadow maps, instancing, dispose everything, test at 60fps on a mid-range phone with CPU throttling. Ship a real mobile strategy — swap WebGL layers for native video/images like Vitasović rather than degrading the desktop scene.",
+        "Ship a prefers-reduced-motion path that scales motion down (not off), and make every static frame composition-strong with animation disabled — Awwwards jurors check both; Usability is 30% of the score.",
+        "Make the AI-augmented pitch content, not a footnote: a 'how this was built' section (Claude Code workflow, Higgsfield-generated media/3D assets, timeline vs typical 8-12-week studio schedule) satisfies the Content criterion and is the exact 'ships faster than traditional teams' proof Five Pack should see.",
+        "Submit the finished site to Awwwards SOTD + FWA + CSSDA — even an Honorable Mention badge is credible third-party validation to cite in the application; study the igloo.inc Awwwards case study and Codrops case-study tag (tympanus.net/codrops/tag/case-study/) before building."
+      ],
+      "sources": [
+        "https://www.utsubo.com/blog/best-threejs-websites-2026",
+        "https://www.hontran.dev/blog/best-award-winning-websites-2026",
+        "https://www.awwwards.com/igloo-inc-case-study.html",
+        "https://www.awwwards.com/sites/igloo-inc",
+        "https://medium.com/@bruno_simon/bruno-simon-portfolio-case-study-960402cc259b",
+        "https://www.awwwards.com/brunos-portfolio-case-study.html",
+        "https://bruno-simon.com/",
+        "https://tympanus.net/codrops/2026/07/15/the-architecture-behind-trionn-coordinating-gsap-three-js-lenis-and-web-audio/",
+        "https://tympanus.net/codrops/2025/03/05/case-study-stefan-vitasovic-portfolio-2025/",
+        "https://tympanus.net/codrops/2025/12/29/2025-a-very-special-year-in-review/",
+        "https://www.awwwards.com/about-evaluation/",
+        "https://www.awwwards.com/websites/sites_of_the_year/",
+        "https://www.webgpu.com/showcase/messenger/",
+        "https://www.webgpu.com/showcase/igloo-inc-procedural-crystals/",
+        "https://www.awwwards.com/case-study-for-lusion-by-lusion-winner-of-site-of-the-month-may.html",
+        "https://lusion.co/",
+        "https://metabole.studio/en/blog/immersive-website-examples",
+        "https://svilenkovic.com/3d/scrollytelling-trends-2026",
+        "https://www.utsubo.com/blog/threejs-best-practices-100-tips",
+        "https://discoverthreejs.com/tips-and-tricks/",
+        "https://github.com/dgreenheck/nextjs-3d-scroll-animations",
+        "https://tympanus.net/codrops/2024/08/07/interactive-3d-device-showcase-with-threepipe/",
+        "https://www.builder.io/blog/webgl-scroll-animation",
+        "https://github.com/darkroomengineering/lenis",
+        "https://www.creativedevjobs.com/blog/best-threejs-portfolio-examples-2025",
+        "https://www.awwwards.com/websites/three-js/",
+        "https://www.utsubo.com/blog/award-winning-website-design-guide"
+      ]
+    }
+  },
+  {
+    "key": "research:stack",
+    "result": {
+      "summary": "Recommended 2026 stack for Cody's 3D portfolio: Vite 8 + React 19 + TypeScript, three.js 0.185 via @react-three/fiber 9 + drei 10 + @react-three/postprocessing 3, GSAP 3.15 ScrollTrigger (now 100% free incl. all former Club plugins) + Lenis smooth scroll driving the R3F camera, assets compressed with gltf-transform (meshopt geometry + KTX2 textures), self-hosted subset variable WOFF2 fonts, deployed on Vercel free tier. Skip Next.js: site is a client-only canvas app, RSC adds nothing, and next/image optimization is disabled under output:'export' anyway; Vite gives sub-second HMR for shader/scene iteration and zero framework friction. All versions verified live on npm 2026-07-26.",
+      "key_findings": [
+        "R3F ecosystem state: @react-three/fiber v9 is the current major (9.6.1 on npm), pairs with React 19 (v8 pairs with React 18). R3F v9 supports React 19.0-19.2 — when React 19.2 bumped its internal reconciler incompatibly, pmndrs bundled the reconciler into R3F, so React 19.2 (incl. Activity) works. drei v10 (10.7.7) is the matching major for R3F v9. @react-three/postprocessing 3.0.4 wraps postprocessing 6.39.3. @react-three/rapier 2.2.0 (physics) and @react-three/uikit 1.0.74 (in-canvas UI) are current but optional — DOM overlay UI beats uikit for a portfolio (accessibility + SEO + LCP).",
+        "Next.js vs Vite for mostly-static 3D showcase: Vite wins for this use case. Whole site is client-rendered canvas; RSC/Server Components give nothing. Under Next output:'export', next/image auto-optimization is disabled (needs custom loader), killing Next's main static-site advantage. Vite = sub-second dev startup + HMR (critical when iterating shaders/scenes), smaller mental model, deploys anywhere. Next 16 (16.2.12) static export works on GitHub Pages but needs basePath/generateStaticParams fiddling. GitHub Pages allows no custom headers (no Cache-Control/immutable, no Brotli control) — bad for multi-MB GLB/KTX2 assets. Vercel free tier: global CDN, Brotli, immutable caching on hashed assets, preview deploys, zero config for Vite.",
+        "Mobile Safari 3D performance: (a) gltf-transform (@gltf-transform/cli 4.4.2) is the standard pipeline — meshopt compression preferred over Draco (similar ratio with gzip/brotli, much faster + lighter decode); (b) KTX2/Basis Universal textures stay compressed in VRAM (~10x GPU memory reduction) — the key defense against iOS Safari VRAM-limit tab crashes; rule: ETC1S for albedo/diffuse, UASTC for normal maps; (c) Canvas dpr={[1,2]} cap, antialias off on mobile, frameloop='demand' for static scenes with invalidate() on interaction; (d) drei PerformanceMonitor (onIncline/onDecline callbacks) + drei useDetectGPU (detect-gpu tiers) for runtime quality tiers; tier-0/WebGL-fail and prefers-reduced-motion get a static poster fallback; (e) target <100 draw calls (60fps on most devices; >500 chokes even strong GPUs); (f) Lighthouse: make hero headline DOM text (LCP element), lazy-mount canvas after first paint, preload first font + first GLB, code-split three via dynamic import.",
+        "Scroll integration: GSAP ScrollTrigger driving R3F beats drei ScrollControls for a portfolio. ScrollControls creates its own fake scroll container and conflicts with ScrollTrigger pinning (documented in drei issue #1986 and GSAP forum threads) — fine for pure-canvas experiences, wrong for a site with lots of DOM content sections. Winning pattern: real DOM scroll + Lenis (1.3.25) for smoothing (lenis.on('scroll', ScrollTrigger.update) + gsap.ticker), ScrollTrigger scrub timelines as single source of truth, timeline mutates camera/scene values via refs read in useFrame (or timeline.seek from scroll progress). GSAP is 100% free since April 2025 (Webflow acquisition) including formerly-paid ScrollSmoother, SplitText (rewritten: 50% smaller, built-in a11y, masking reveals), MorphSVG, DrawSVG — all on public npm, no license cost, strong for the 'agency-grade' feel.",
+        "Typography + asset hosting: self-host 1-2 subset variable WOFF2 fonts (subsetting cuts a 160KB variable font to 40-60KB), @font-face with font-display:swap + size-adjust to avoid CLS, preload the primary font — fonts are an LCP/CLS problem. Same WOFF2 feeds drei <Text> (troika SDF) for in-canvas type so DOM and 3D typography match. Free distinctive pairings available via Fontshare (e.g., Clash Display headings) + Inter Variable/system body. Host everything (GLB/KTX2/HDR/fonts) as hashed static assets on Vercel CDN; keep first-load 3D payload under ~3-5MB."
+      ],
+      "recommendations": [
+        "Recommended stack (exact packages, npm-verified 2026-07-26): vite@8.1.5 + @vitejs/plugin-react + TypeScript; react@19.2 + react-dom@19.2; three@0.185.1; @react-three/fiber@9.6.1; @react-three/drei@10.7.7; @react-three/postprocessing@3.0.4 (postprocessing@6.39.3 under the hood); gsap@3.15.0 (ScrollTrigger + SplitText + ScrollSmoother all free); lenis@1.3.25; vite-plugin-glsl for shader files; dev-only: leva@0.10.1 (tweak panel) + r3f-perf@7.2.3 (perf HUD); asset pipeline: @gltf-transform/cli@4.4.2. Optional only if the design calls for it: @react-three/rapier@2.2.0 (physics toys), skip @react-three/uikit (use DOM overlay UI).",
+        "Deploy to Vercel free tier, not GitHub Pages: immutable cache headers + Brotli on multi-MB GLB/KTX2 assets, preview URLs to share with Five Pack, custom domain free. Keep GitHub repo public as part of the 'built with Claude Code' pitch.",
+        "Asset pipeline command per model: gltf-transform optimize in.glb out.glb --compress meshopt --texture-compress ktx2 (ETC1S albedo, UASTC normals); load with drei useGLTF + MeshoptDecoder + KTX2Loader.",
+        "Scroll architecture: Lenis + GSAP ScrollTrigger scrub timeline as the single scroll source of truth; camera/scene values mutated via refs consumed in useFrame. Do NOT mix drei ScrollControls with ScrollTrigger — known conflicts.",
+        "Mobile strategy: dpr capped [1,2], antialias off, drei PerformanceMonitor for adaptive quality, useDetectGPU tiers with a designed static-poster fallback for tier 0 / WebGL failure / prefers-reduced-motion. Hero headline must be DOM text (LCP), canvas lazy-mounted after first paint.",
+        "Typography: two self-hosted subset variable WOFF2 fonts (distinctive display from Fontshare + Inter Variable body), font-display:swap + size-adjust, preload primary; reuse same WOFF2 in drei <Text> for canvas type."
+      ],
+      "sources": [
+        "https://github.com/pmndrs/react-three-fiber/releases",
+        "https://r3f.docs.pmnd.rs/tutorials/v9-migration-guide",
+        "https://r3f.docs.pmnd.rs/advanced/scaling-performance",
+        "https://github.com/pmndrs/drei/discussions/2213",
+        "https://github.com/pmndrs/drei/issues/1986",
+        "https://gsap.com/blog/3-13/",
+        "https://webflow.com/updates/gsap-becomes-free",
+        "https://gsap.com/community/forums/topic/40114-scrolltrigger-pin-and-dreis-scrollcontrols-dont-play-well-together/",
+        "https://wawasensei.hashnode.dev/scroll-animations-with-react-three-fiber-and-gsap",
+        "https://www.utsubo.com/blog/threejs-best-practices-100-tips",
+        "https://wawasensei.dev/tuto/fix-loading-model-freezes-threejs-react-ktx2",
+        "https://www.axl-devhub.me/en/blog/optimizing-3d-models",
+        "https://nextjs.org/docs/pages/guides/static-exports",
+        "https://github.com/vercel/next.js/discussions/58790",
+        "https://dev.to/shadcndeck_dev/nextjs-vs-vite-choosing-the-right-tool-in-2026-38hp",
+        "https://strapi.io/blog/vite-vs-nextjs-2025-developer-framework-comparison",
+        "https://thelinuxcode.com/fonts-in-nextjs-2026-nextfont-patterns-performance-and-production-pitfalls/",
+        "https://logoswebdesigns.com/blog/website-typography-best-practices-2026/",
+        "npm registry (live version check via npm view, 2026-07-26)"
+      ]
+    }
+  },
+  {
+    "key": "research:fivepack",
+    "result": {
+      "summary": "Five Pack (Five Pack Creative): onshore software design/dev firm, founded 2008, HQ Frisco TX (7460 Warren Parkway Suite 100) + Bixby OK office. 51-200 employees, hybrid remote (Dallas + Tulsa hubs). Co-founders: Jerry Beers (technical; one of first iPhone app devs) + Kevin Legg (business; both ex-Intuit/Sage-linked); Ian Campbell GM. Apple Consultants Network Certified — Apple-platform work is their crown jewel (8-yr American Airlines staff-aug: iPhone/iPad/Apple Watch apps, watch app \"featured on stage by Apple\"; Match native iOS/Android built from scratch 2012, iPad app Webby-nominated). Services: custom mobile (Swift/SwiftUI iOS, Android, Flutter, React Native, wearables), web (React, Angular, Vue.js, Node.js, PHP, C#), UI/UX, staff augmentation, QA, plus heavy AI push: \"AI-Driven Development\", \"AI Enablement & Training\", \"On-device Core ML model development\"; LinkedIn posts claim AI-first collaboration \"tripled development speed\". Process brand: \"Iteration 0\" discovery with \"demoable POCs and rapid prototyping\". Values: Ownership, Servant Leadership, Integrity, Simplicity (\"Simplicity is the ultimate sophistication\"), Innovation; internal \"Alpha College\" training; hires \"A-players\" via BambooHR portal. Client testimonials overwhelmingly praise communication, partnership, speed, ethics (\"delivers great work – really fast\"). Their own site: WordPress + Elementor, Poppins/Roboto fonts, teal-green accent #00C391, clean/simple — NOT flashy 3D. Perfect fit for Cody: Workout Buddy (React Native + native Swift Apple Watch app + Live Activities/Dynamic Island) hits their exact sweet spot (Apple polish + cross-platform + AI-accelerated shipping); portfolio should prove native-Apple craft, AI velocity with receipts, and client-grade communication — while honoring their \"Simplicity\" value (impressive but not gimmicky).",
+      "key_findings": [
+        "WHO: founded 2008, Frisco TX HQ + Bixby OK; 51-200 employees (LinkedIn, 12,459 followers); onshore-only, hybrid remote across Dallas/Tulsa. Co-founders Jerry Beers (tech — early iPhone dev, saw App Store opportunity day one) + Kevin Legg (business mgmt); met at Tulsa software company ~20 yrs prior; Ian Campbell = GM. Tagline: \"Building the future through great software.\"",
+        "APPLE DNA: Apple Consultants Network Certified. American Airlines engagement ran 8 years (staff aug): customer-facing iPhone app, early iPad app, internal apps, and Apple Watch work \"featured on stage by Apple\". Match: full native iOS+Android build from scratch (2012), iPad app Webby-nominated, \"revenue growth in first year\". Other clients: Petco, AutoNation, GoDaddy, Syngenta Digital, DeerCast/Drury Outdoors, OnCure, Hogo, Gameday Logistics, United Way, MultiTracks.",
+        "SERVICES + STACK THEY HIRE FOR: careers page buckets = Designers (UX/UI/product/POC/prototyping, must be \"compliant with Apple and Google interface guidelines\"); Mobile Developers (iOS, Android, Flutter, React Native); Web Developers (React, Angular, Vue.js, Node.js, PHP, C#); Quality & Logistics (manual/automated QA, PM, BA). Services pages name Swift, SwiftUI, wearables, \"On-device Core ML model development\". Openings live on BambooHR portal (blocked to scraping; Glassdoor index showed 1 open position). Big revenue line = staff augmentation into Fortune 500 teams, not just project builds.",
+        "AI-FIRST PIVOT (their current marketing): \"AI-Driven Development — We use AI-powered tools to accelerate development and reduce manual effort\"; \"AI Enablement & Training\" sold onsite/virtually; LinkedIn posts tout AI-first strategies that \"tripled development speed\" and internal \"IdeaLab tool\". Cody's \"AI-augmented developer who ships faster than traditional teams\" pitch is literally their own sales pitch to clients.",
+        "PROCESS + VALUES: \"Iteration 0\" discovery phase to \"mitigate risks, maximize returns, and optimize strategy early\" via \"demoable POCs and rapid prototyping\". Five values: Ownership (\"We take full ownership of our work, actions, and outcomes\"), Servant Leadership, Integrity (\"doing what's right—even when it's hard or unnoticed\"), Simplicity (\"Simplicity is the ultimate sophistication\"), Innovation. Internal training = \"Alpha College\"; self-improvement culture favors self-taught devs who prove growth.",
+        "CULTURE SIGNALS: Glassdoor 3.5 (6 reviews, 38% recommend) — pros: flexibility, integrity, passionate people, WWDC watch parties, office Olympics; cons: rapid-growth pains, one layoff-handling complaint. Client testimonials converge on: proactive communication, partnership (\"worked as if they were part of our own company\"), speed (\"delivers great work – really fast\" — American Airlines), app-store approval expertise, ethics.",
+        "THEIR SITE STYLE: WordPress + Elementor (custom theme five-pack-2023 over hello-elementor), Google Fonts Poppins (display) + Roboto (body), primary accent #00C391 (teal-green), grays #6f7279/#32373c, white background, clean corporate layout, case-study logo grid + testimonial carousel. No 3D/WebGL anywhere — a tasteful Awwwards-grade 3D portfolio would instantly out-craft their own site (opportunity, but must stay \"simple, not gimmicky\" to match their Simplicity value).",
+        "RELEVANCE HOOK: they market fitness app development (blog: \"Fitness App Development: How to Create The Best App For 2022\") and app accessibility — Workout Buddy is squarely in a domain they sell.",
+        "WHAT CEO/CTO CARE ABOUT: Kevin (CEO-side) = client trust, reliability, communication, billable versatility across stacks, onshore professionalism (engineers embed directly in Fortune 500 client teams). Jerry (tech-side, original iPhone dev) = native Apple craft on current APIs (SwiftUI, watchOS, Live Activities/Dynamic Island, Liquid Glass, Core ML/on-device AI), plus genuine AI-tooling leverage — he is selling AI-accelerated dev to clients and needs devs who live it."
+      ],
+      "recommendations": [
+        "Lead with Apple-platform depth, not generic web: hero the Workout Buddy Apple Watch app (HKWorkoutSession, haptics, rest timer), Live Activities + Dynamic Island (Crumbl-style progress bar), Liquid Glass UI, widgets. This mirrors their proudest case study (AA Apple Watch on Apple's stage). Explicitly note HIG compliance and accessibility/Reduce Motion support — their careers page calls out Apple/Google guideline compliance and they blogged about accessibility.",
+        "Frame the AI story with receipts, in their vocabulary: 'AI-Driven Development' section showing Claude Code workflow, Higgsfield-generated media, commit-velocity/feature-timeline stats ('shipped X features in Y weeks solo'). Echo their claim ('tripled development speed') with your own measured multiplier. Position as: I am the AI-enablement engineer you already sell to clients.",
+        "Structure project pages like THEIR case studies: Challenge → Approach → Results-with-metrics → quote. Add a visible process section modeled on their 'Iteration 0': discovery, demoable POC, rapid prototyping, iterate. Shows client-facing maturity for their staff-aug model.",
+        "Emphasize the rare combo: React Native/Expo app WITH hand-built native Swift modules (Live Activity module, Watch app, local Expo modules, App Intents). They hire both iOS AND React Native/Flutter devs — one person covering both stacks is maximum billable versatility for an agency.",
+        "Map portfolio copy to their five values verbatim: Ownership (solo-shipped end-to-end: app, backend/Supabase, watch, CI/TestFlight), Simplicity ('Simplicity is the ultimate sophistication' — restrained, fast 3D, no gimmicks), Innovation (AI pipeline), Integrity/Servant Leadership (testimonial-style quotes if available, clear honest writeups).",
+        "Design language nods: their site is Poppins/Roboto, teal #00C391 on white, clean. Portfolio can be far more advanced (3D/WebGL) but keep it performant, legible, and optionally use a teal-adjacent accent; a bloated janky 3D site would contradict their Simplicity value and Apple-polish brand. Target 'Apple keynote' aesthetic over 'agency chaos'.",
+        "Include a communication proof layer: short Loom-style demo videos, crisp written case studies, maybe a 'how I work with stakeholders' section — every single client testimonial praises proactive communication; staff-aug firms hire people they can put in front of American Airlines tomorrow.",
+        "Practical outreach: openings post to their BambooHR portal (linked from fivepackcreative.com/join-our-team); Glassdoor indexed ~1 open role, so also go direct — info@fivepackcreative.com, (972) 200-9120, and LinkedIn (company/five-pack-creative; GM Ian Campbell, co-founders Kevin Legg + Jerry Beers). Onshore hybrid Dallas/Tulsa — Cody being US-based fits; mention openness to hybrid Dallas if true.",
+        "Bonus angle: they actively market fitness-app development to clients — pitch Workout Buddy as a living sales asset ('the kind of app you sell — already shipped'). Also mention on-device/Core ML interest: AI coach chat + any on-device features align with their 'On-device Core ML model development' service line."
+      ],
+      "sources": [
+        "https://fivepackcreative.com/",
+        "https://fivepackcreative.com/about/",
+        "https://fivepackcreative.com/services/",
+        "https://fivepackcreative.com/join-our-team/",
+        "https://fivepackcreative.com/case-studies/",
+        "https://fivepackcreative.com/case-studies/american-airlines/",
+        "https://fivepackcreative.com/case-studies/match/",
+        "https://fivepackcreative.com/testimonials/",
+        "https://fivepackcreative.com/blog/",
+        "https://www.linkedin.com/company/five-pack-creative",
+        "https://www.glassdoor.com/Reviews/Five-Pack-Creative-Reviews-E1628402.htm",
+        "https://www.glassdoor.com/Jobs/Five-Pack-Creative-Jobs-E1628402.htm",
+        "https://thesiliconreview.com/magazine/profile/five-pack-creative-a-mobile-app-development-company-focused-on-custom-development-developer-training-and-mobile-staffing-services",
+        "https://voyagedallas.com/interview/meet-ian-campbell-general-manager-five-pack-creative-frisco-serve-clients-across-nation/",
+        "https://www.indeed.com/cmp/Five-Pack-Creative-4/reviews",
+        "https://themanifest.com/company/five-pack"
+      ]
+    }
+  },
+  {
+    "key": "research:ai-wow",
+    "result": {
+      "summary": "Research done. Big finding: Five Pack Creative markets itself as \"AI First & AI Native\" — they publicly tout AI-driven reduction in project estimates and \"AI-generated POCs and rapid prototyping... in unprecedented timelines.\" So the winning portfolio move is PROOF OF AI-AUGMENTED DELIVERY SPEED (build-log storytelling, real metrics, documented AI asset pipeline), not AI decoration. Resume chatbots are now commodity — recruiters \"have seen hundreds... stopped being a signal\" — they only impress when they show tool-use, grounding, and guardrails. Most wow features are fully static or need only a free-tier Cloudflare Worker proxy (Gemini Flash ~1,500 req/day free, Groq, Workers AI 10k neurons/day). WebLLM (in-browser LLM, zero backend) is real but wrong as the default path: multi-hundred-MB model download, Safari support still Technology Preview — fatal if the CEO opens the site on an iPhone. Top-ranked feature: scroll-driven \"watch this site build itself\" agent-log replay where the 3D scene assembles in sync with real Claude Code session excerpts — genuinely rare, fully static, and speaks Five Pack's exact language.",
+      "key_findings": [
+        "REAL EXAMPLES — embedded-AI portfolios exist but are commoditized: GitHub 'smart-portfolio' (medevs) and the whole 'ai-portfolio' GitHub topic = resume-Q&A bots on Next.js + OpenAI/Gemini; Aaron Philip's Resume Chatbot (RAG over resume sections); ChatProfolio (AI chatbox per profile). Awwwards has recognized AI-guide sites (Turn.io SOTD June 2025; Redidea 'Custom AI Chatbot Website Guide'; an 'AI Powered Web Projects' collection) — but award-winning portfolios in 2025 still win on 3D/GSAP/Three.js craft (Dorian Lods, Portfolio '25 SOTD), with AI as a supporting layer, not the trick itself.",
+        "REAL EXAMPLES — 'built with Claude Code' meta-storytelling is an emerging genre: multiple 2025-2026 writeups (Framer→Claude Code portfolio rebuild; a portfolio whose own chatbot was built by Claude Code and the process packaged as an installable Claude Skill; Markana Media gallery of Claude-Code-built sites). A '/ai' transparency page (how AI was used to build the site) is an emerging trust convention. Nobody found doing an INTERACTIVE agent-log replay inside the site itself — that slot is open.",
+        "AI-TWIN/AVATAR route (2wai, AI Studios/DeepBrain, HeyGen-style talking avatars) exists as SaaS but reads uncanny/marketing-tool, demonstrates vendor usage not engineering — skip for a hiring-CEO audience.",
+        "WHAT IMPRESSES vs GIMMICK (hiring-manager sources converge): chatbots alone are invisible ('recruiters have seen hundreds — stopped being a signal'); what lands = execution quality, the 'hidden 90%' (guardrails, grounding, deployment, error handling), business-outcome framing ('shipped X in Y weeks' beats any F1 score), live demo first + a 'Technical Decisions' writeup showing judgment. A well-built grounded bot with visible engineering beats a novel gimmick.",
+        "FIVE PACK SPECIFIC: fivepackcreative.com describes the firm as 'AI First & AI Native'; they cite AI-driven reduction in project estimates and AI-generated POCs/rapid prototypes 'in unprecedented timelines'; onshore senior mobile talent, merit hiring. So the CEO's scoreboard is delivery speed + process maturity + mobile craft. Workout Buddy (Watch app, Live Activities, Supabase, AI coach) IS the proof — the portfolio's AI features should quantify and narrate how AI let one person ship an agency-scale iOS product.",
+        "FEASIBILITY — LLM chat: not fully static (key exposure), but near-free via a tiny proxy: Cloudflare Workers free tier; Workers AI 10,000 neurons/day; Google Gemini Flash free tier ~1,500 req/day no card; Groq free tier ~30 req/min, 300+ tok/s. Pattern: static site + one Worker endpoint + rate limiting.",
+        "FEASIBILITY — WebLLM/WebGPU: fully static, zero backend, ~30-70 tok/s on laptop GPU, ~80% of native throughput — but requires a huge model download on first use and Safari support is still Technology Preview (Chrome/Edge stable since v113). Ship only as an optional 'runs 100% in your browser' easter-egg mode, never the default; a Five Pack CEO on an iPhone would hit a dead feature.",
+        "FEASIBILITY — fully static wins: agent-log replay (baked JSON of real Claude Code transcripts); AI 3D-asset pipeline exhibit (Higgsfield generate_3d / Tripo / Meshy → GLB with PBR textures → Three.js/R3F — standard 2025 pipeline, GLB drops straight into the scene); live build stats (GitHub REST client-side, 60 req/hr unauth is enough, or bake JSON at build); per-audience adaptive layout (deterministic re-assembly, no LLM needed). Pre-generate any 'generative' backgrounds/media at build time — runtime generation costs money and adds failure modes.",
+        "GENERATIVE-UI trend context (2026): 'websites that assemble themselves' and hyper-personalization are the hyped direction (Figma: 72% of designers use genAI; personalization claims of +15% conversion) — a constrained, deterministic version of this ('re-assemble the site for a CEO vs an engineer') captures the trend without backend risk."
+      ],
+      "recommendations": [
+        "RANK 1 — 'Watch this site build itself': scroll-driven replay of the real Claude Code build log. The 3D hero scene assembles piece-by-piece in sync with actual session excerpts (prompt → diff → result, timestamps, token/cost counters). Ends on total: N sessions, X hours, $Y. Why #1: never-seen-before presentation of an emerging genre, fully static, zero API risk, and it dramatizes exactly what Five Pack sells ('unprecedented timelines'). This is the AI-AUGMENTED-ENGINEERING proof, not a gimmick.",
+        "RANK 2 — AI asset-pipeline exhibit: label the site's own 3D assets as AI-generated and show the pipeline inline (Higgsfield prompt → concept image → generate_3d mesh → cleanup → GLB in-scene), with a wireframe/raw-output toggle on the live models. Fully static; proves generative-media mastery (Higgsfield) fused INTO the engineering pipeline. Same treatment for Workout Buddy exercise-demo media if upgraded.",
+        "RANK 3 — Concierge agent that DRIVES the site, not a resume bot: 'Ask about Cody / Workout Buddy' chat with function-calling that navigates the 3D scene, opens the relevant case study, filters projects ('show me the Watch app' → camera flies there). Grounded RAG over baked site JSON; visible 'how this is guarded' note (system-prompt hardening, rate limit, fallback FAQ when API down) to show hidden-90% competence. Needs one Cloudflare Worker + Gemini Flash/Groq free tier. Tool-use is the differentiator that lifts it above the commodity chatbots recruiters ignore.",
+        "RANK 4 — Receipts dashboard: live/baked build stats — commits, Claude Code sessions, TestFlight builds shipped, features (Watch app, Live Activities, AI coach) with 'shipped solo in N weeks' framing. GitHub API client-side or build-time JSON; fully static. This is the outcome-framing hiring sources say lands hardest with executives.",
+        "RANK 5 — Adaptive entry: 'I'm a CEO / I'm an engineer / I'm a designer' → the site re-assembles (section order, depth, copy) deterministically, optionally LLM-polished. Rides the 2026 generative-UI trend with zero backend requirement.",
+        "AVOID: video AI-twin/avatar greeters (uncanny, vendor-tool vibe), a plain chat-with-my-resume bot with no tool-use, 'AI wrote this' badges without receipts, WebLLM as the only chat path (Safari/iPhone dead-end), runtime image generation (cost + latency). If chat proxy is down, degrade to static FAQ — never a broken feature in front of the CEO.",
+        "Build order for effort/payoff: 1 and 4 first (static, highest CEO signal), then 2 (asset work already planned via Higgsfield), then 3 (only backend-touching piece), 5 last. Add a '/ai' colophon page tying it together: tools used (Claude Code, Higgsfield), what was human judgment vs AI labor — the transparency convention that builds trust."
+      ],
+      "sources": [
+        "https://github.com/medevs/smart-portfolio",
+        "https://github.com/topics/ai-portfolio",
+        "https://medium.com/@aaronphilip2003/r%C3%A9sum%C3%A9-chatbot-abccc89de23b",
+        "https://medium.com/@clee080/i-built-a-personalized-interactive-portfolio-builder-with-ai-integration-chatprofolio-9674fa824980",
+        "https://www.awwwards.com/inspiration_search/assistant/",
+        "https://www.awwwards.com/awwwards/collections/ai-powered-web-projects/",
+        "https://www.awwwards.com/sites/dorian-lods-portfolio-2025",
+        "https://www.awwwards.com/sites/portfolio-25-1",
+        "https://medium.com/@tanujabodas23/from-framer-to-claude-code-rebuilding-my-portfolio-with-ai-0f2e92b9a23f",
+        "https://medium.com/@lovely.mcinerney/built-a-portfolio-site-with-my-own-ai-chatbot-using-claude-code-66ca39ae15b7",
+        "https://markanamedia.com/blog/claude-code-website-examples-gallery/",
+        "https://dev.to/rpalo/does-your-site-need-a-ai-page-2hkp",
+        "https://www.upskillist.com/blog/10-ai-portfolio-examples-impress-recruiters/",
+        "https://www.dataexpert.io/blog/ultimate-guide-ai-engineering-portfolios",
+        "https://medium.com/predict/the-ai-projects-that-actually-get-you-hired-and-how-to-think-about-building-them-9696f1f73f46",
+        "https://careery.pro/blog/ai-careers/ai-engineer-project-ideas",
+        "https://fivepackcreative.com/",
+        "https://selectedfirms.co/agency/five-pack-creative",
+        "https://web.dev/articles/ai-chatbot-webllm",
+        "https://github.com/mlc-ai/web-llm",
+        "https://arxiv.org/html/2412.15803v2",
+        "https://medium.com/@krtarunsingh/webgpu-llm-build-a-no-server-no-keys-offline-ai-chat-in-your-browser-webllm-tutorial-gguf-c2e3bd89ce3a",
+        "https://costbench.com/best/best-llm-api-with-free-tier/",
+        "https://klymentiev.com/blog/free-llm-api",
+        "https://tokenmix.ai/blog/free-llm-apis-2026-every-provider-free-tier-tested",
+        "https://www.tripo3d.ai/compare/tripo-vs-meshy",
+        "https://dev.to/abigail_armijo/what-i-learned-exploring-ai-generated-3d-a-hands-on-tour-of-meshy-tripo-and-threejs-5cic",
+        "https://agentbrisk.com/blog/ai-3d-modeling-tools-2026/",
+        "https://elementor.com/blog/10-ai-web-design-trends-watch-2026/",
+        "https://www.figma.com/resource-library/web-design-trends/",
+        "https://www.stan.vision/journal/ux-ui-trends-shaping-digital-products",
+        "https://edesigninteractive.com/blog/designing_intelligent_websites",
+        "https://virbo.wondershare.com/ai-twin.html",
+        "https://www.aistudios.com/features/custom-studio-avatar",
+        "https://www.prnewswire.com/news-releases/meet-your-digital-twin-2wai-app-lets-you-create-your-own-avatar-in-just-three-minutes-302533032.html"
+      ]
+    }
+  },
+  {
+    "key": "research:higgsfield",
+    "result": {
+      "summary": "Higgsfield account has 1909 credits on 'ultra' plan — plenty for full portfolio asset run. Best models: Nano Banana Pro / Nano Banana 2 (Google, up to 4K) for photoreal hero images; Tripo H3.1 Image-to-3D (9-18 credits, textured PBR GLB, up to 2M faces) for 3D props; Seedance 2.0 (Bytedance, 45 credits per 5s 1080p silent clip) for cinematic background loops; upscale_image (Bytedance, flat-cost 2K/4K) and upscale_video (Topaz 2160p or Bytedance 4K) for enhancement. GLB output is three.js-native (GLTFLoader). Recommended split: Higgsfield for organic/stylized props, hero stills, and video loops; procedural shaders for particles/glass/scroll choreography; real screenshots (not AI) for Workout Buddy UI; do NOT AI-mesh the iPhone/Watch (hard-surface devices come out melty — build device frames procedurally with screenshot textures). Higgsfield's own website builder (create_website) imposes React 19 + TanStack Start SSR on a Higgsfield subdomain — wrong vehicle for a personal-brand portfolio, but its bundled design playbooks (references/scroll-scrub.md, references/wow-catalog.md) are readable via get_website_creation_bundle_file and directly applicable to the custom three.js build.",
+      "key_findings": [
+        "Credits: mcp__claude_ai_Higgsfield__balance returned {\"credits\":1909,\"subscription_plan_type\":\"ultra\"} — enough for roughly 40 background video clips or 200 3D props; budget is not a constraint.",
+        "Photoreal hero images (via models_explore recommend, type image): 'nano_banana_2' (Google, fast, 1k/2k/4k, photorealistic, text-to-image + image-to-image) and 'nano_banana_pro' (Google, 'ultimate quality, text and diagrams', 1k/2k/4k — best when hero art includes rendered text) top the ranking; 'recraft_v4_1' (Recraft) is the specialist for clean product shots/mockups (model_type 'utility') and vector/logo assets (model_type 'vector', supports brand hex palette via 'colors' param); 'gpt_image_2' (OpenAI) and 'seedream_v4_5' (Bytedance, up to ~6K on quality 'high') are 4K alternates. Exact image credit costs unverified: generate_image get_cost preflight was blocked by this session's permission classifier (video/3D preflights were allowed).",
+        "3D generation (generate_3d, models_explore type 3d): top pick 'tripo_h3_1_image_to_3d' (Tripo H3.1) — textured + PBR GLB from one image, face_limit 1000-2,000,000 (adaptive default), quad-mesh option, texture_alignment 'original_image', COST CONFIRMED 9 credits default / 18 credits with texture_quality+geometry_quality 'detailed'. Alternates: 'hunyuan3d_v3_image_to_3d' (Tencent, single or multi-view, face_count 40k-1.5M default 500k, LowPoly mode; 15 credits with enable_pbr) and Meshy 'image_to_3d' / 'meshy_multi_image_to_3d' (target_polycount 100-300,000 default 30k, quad/triangle topology, PBR maps, auto-rigging + 678-clip animation library via animation_actions; cost preflight requires an actual source image so unpriced). Multi-image variants (1-4 views) give better geometric accuracy.",
+        "GLB usability in three.js: yes, first-class — GLB is three.js's native format (GLTFLoader). All three model families emit textured GLB with optional PBR material maps (metallic/roughness/normal), which map directly to three.js MeshStandardMaterial. For web, cap polycount (Meshy target_polycount ~30k, or Tripo face_limit ~50-100k) and run output through gltf-transform/Draco or meshopt compression before shipping.",
+        "Cinematic background video loops (models_explore recommend, type video): 'seedance_2_0' (Bytedance) is the platform default recommendation — 4-15s, up to 4K in mode 'std', start_image+end_image roles (pass the SAME frame as start and end for a seamless loop), generate_audio:false for silent bg. CONFIRMED costs: 45 credits (5s, 1080p, std, silent), 176 credits (8s, 4K, std), 17.5 credits (5s, 720p, fast). Budget option 'kling3_0_turbo' = 7.5 credits per 5s. Others surfaced: 'grok_video_v15' (xAI, 720p max), 'gemini_omni' (Google, 720p max) — resolution-capped, skip for hero backgrounds.",
+        "Upscaling: dedicated tools, not catalog models. mcp__claude_ai_Higgsfield__upscale_image — provider 'bytedance' only, resolution '2k'|'4k', requires source width/height px, flat cost with get_cost preflight available. mcp__claude_ai_Higgsfield__upscale_video — provider 'bytedance' (1080p/2k/4k, presets incl. 'aigc' for AI-generated footage, fps 24/30/60, fps>30 doubles cost, needs source dimensions) or 'topaz' (Topaz Video, 1080p/2160p, aspect-ratio based, no dimensions needed, no cost preflight). Pipeline: generate at 1080p then upscale_video to 2160p, cheaper than native 4K generation (176 credits).",
+        "Website tooling: mcp__claude_ai_Higgsfield__get_website_creation_instructions returns the 'website-builder-flow' skill — builds a React 19 + TanStack Start SSR app deployed as a single Cloudflare Worker at <subdomain>.<higgsfield-host>. Two types: type 'website' (standalone brand, NO Higgsfield branding, NO AI generation in-site, phased image-grounded pipeline) vs type 'app' (Quanta UI + Sign in with Higgsfield + fnf SDK). The 'website' flow's Animated path is a scroll-driven seam-locked camera journey through generated scenes — exactly the Awwwards aesthetic Cody wants. 27 bundle reference files readable via get_website_creation_bundle_file, notably references/scroll-scrub.md, references/wow-catalog.md, references/design-taste-frontend.md, references/reference-boards.md, references/asset-system.md, references/website-flow.md. Caveat: stack and hosting are imposed (no three.js/custom-domain guarantee), so it's a design-playbook mine, not the deployment vehicle for a personal portfolio."
+      ],
+      "recommendations": [
+        "Host the portfolio on Cody's own stack/domain (three.js/R3F + own repo); use Higgsfield purely as the asset factory. A hire-me portfolio should not live on a <subdomain>.higgsfield host, and create_website imposes React 19 + TanStack Start without three.js guarantees.",
+        "Asset split — generate with Higgsfield: (a) hero/section key-art stills via 'nano_banana_pro' at 4K (or generate 2K then mcp__claude_ai_Higgsfield__upscale_image to 4K); (b) 2-3 stylized organic 3D props via 'tripo_h3_1_image_to_3d' at 9-18 credits each (e.g. dumbbell/kettlebell for Workout Buddy, coffee cup for Fusion Coffee, arctic animal for Zoo Game) — pipeline: generate concept image with nano_banana_pro → generate_3d → gltf-transform/Draco compress → three.js; (c) 1-2 cinematic background loops via 'seedance_2_0' image-to-video (same still as start_image and end_image for a seamless loop, generate_audio:false, 5s 1080p std = 45 credits, then upscale_video provider 'topaz' resolution '2160p' if needed).",
+        "Do NOT use image-to-3D for the iPhone or Apple Watch — AI mesh generation smears hard-surface precision hardware (crisp edges, screen bezels, crown). Build device mockups procedurally in three.js: RoundedBoxGeometry frame + emissive plane textured with REAL Workout Buddy screenshots (Live Activities, Watch app, calendar). Real screenshots are also more credible to Five Pack reviewers than AI renders of the app.",
+        "Build procedurally in shaders (not generated media): particle fields, noise/gradient backgrounds, glass/refraction materials (ties to the Workout Buddy Liquid Glass work), text distortion, and all scroll-driven camera choreography. This is the part that proves engineering skill; generated video backgrounds should be accents, not the whole show.",
+        "Before the asset run, read Higgsfield's design playbooks via mcp__claude_ai_Higgsfield__get_website_creation_bundle_file: 'references/scroll-scrub.md' (seam-locked scroll-scrub scene technique), 'references/wow-catalog.md', and 'references/design-taste-frontend.md' — free, directly transferable to the custom three.js build, and reading them costs zero credits.",
+        "Budget sketch (well inside 1909 credits): ~6 hero images + 4 Tripo props (~50 credits) + 3 Seedance 1080p loops (135 credits) + a couple of Topaz upscales — total on the order of 300-400 credits, leaving big headroom for iteration. Preflight every generation with get_cost:true first; note generate_image get_cost was permission-blocked in this session, so confirm image pricing interactively before the batch."
+      ],
+      "sources": [
+        "mcp__claude_ai_Higgsfield__balance (live call: 1909 credits, plan 'ultra')",
+        "mcp__claude_ai_Higgsfield__models_explore action:'recommend' for image/3d/video/upscale goals and action:'get' for 'seedance_2_0' and 'tripo_h3_1_image_to_3d'",
+        "mcp__claude_ai_Higgsfield__generate_video get_cost:true preflights ('seedance_2_0' 5s-1080p=45, 8s-4K=176, 5s-720p-fast=17.5; 'kling3_0_turbo' 5s=7.5 credits)",
+        "mcp__claude_ai_Higgsfield__generate_3d get_cost:true preflights ('tripo_h3_1_image_to_3d' 9 default / 18 detailed; 'hunyuan3d_v3_image_to_3d' 15 with enable_pbr)",
+        "mcp__claude_ai_Higgsfield__get_website_creation_instructions (website-builder-flow SKILL.md, version 'website-builder-flow-resource-2026-07-25-cover-compose-v3-no-model-text', 27 bundle reference paths)",
+        "Tool schemas: mcp__claude_ai_Higgsfield__generate_3d, mcp__claude_ai_Higgsfield__upscale_image, mcp__claude_ai_Higgsfield__upscale_video, mcp__claude_ai_Higgsfield__generate_video, mcp__claude_ai_Higgsfield__generate_image"
+      ]
+    }
+  },
+  {
+    "key": "research:skills-hunt",
+    "result": {
+      "summary": "Verified 6 real, installable Claude Code skill sources for premium three.js/R3F/GSAP work. Top picks: official greensock/gsap-skills (12.4k stars, 8 SKILL.md skills incl. ScrollTrigger/SplitText/Flip — the backbone of Awwwards-style sites), EnzeD/r3f-skills (105 stars, 11 R3F-specific skills matching the planned React Three Fiber stack), and anthropics/skills' algorithmic-art + canvas-design + theme-factory (official; Cody already runs frontend-design/webapp-testing/skill-creator from same repo). Secondary: freshtechbro/claudedesignskills marketplace (612 stars, 22 skills: threejs-webgl, spline, rive, locomotive-scroll, web3d-integration-patterns), iart-ai/webgl-animation-skills (GLSL shaders + particle systems gap-filler), OpenAEC-Foundation/Three.js-Claude-Skill-Package (24 deterministic vanilla-three.js skills incl. WebGPU/TSL — optional, heavier). obra/superpowers already installed (sp-* skills present). Per Cody's global rule, skills must land in ~/.claude/skills/<name>/ — npx installers default to project-level .claude/skills, so global installs need clone+copy commands (provided in recommendations).",
+      "key_findings": [
+        "greensock/gsap-skills — OFFICIAL GreenSock repo, 12.4k stars, MIT. 8 skills, each a folder with SKILL.md under skills/: gsap-core, gsap-timeline, gsap-scrolltrigger (scroll-linked anims, pinning, scrub), gsap-plugins (ScrollSmoother, Flip, Draggable, SplitText, ScrollTo), gsap-utils, gsap-react (useGSAP hook, cleanup, SSR), gsap-performance, gsap-frameworks. Highest-quality candidate found; scroll choreography + text reveals are exactly what 'Site of the Day' portfolios are made of.",
+        "EnzeD/r3f-skills — 105 stars, MIT. 11 SKILL.md skills under skills/: r3f-fundamentals, r3f-geometry (instancing), r3f-materials, r3f-lighting, r3f-textures, r3f-loaders (useGLTF/Suspense), r3f-animation (useFrame, springs), r3f-shaders (shaderMaterial, uniforms), r3f-postprocessing (EffectComposer), r3f-interaction, r3f-physics (Rapier). Verified against @react-three/fiber 8.x, Drei 9.x, three r160+, React 18+. Best exact-fit for an R3F portfolio site.",
+        "anthropics/skills (official) — relevant skills in skills/ folder: algorithmic-art (generative visuals), canvas-design, theme-factory, web-artifacts-builder, frontend-design, webapp-testing. Cody already has frontend-design, webapp-testing, skill-creator, claude-api installed — only algorithmic-art, canvas-design, theme-factory are net-new value.",
+        "freshtechbro/claudedesignskills — 612 stars, plugin marketplace with 22 skills + 5 bundles: threejs-webgl, gsap-scrolltrigger, react-three-fiber, framer-motion, locomotive-scroll, barba.js, spline-interactive, rive-interactive, web3d-integration-patterns, modern-web-design, vanta, pixijs, anime.js, lottie, blender-web-pipeline, etc. Broadest coverage but overlaps GSAP/R3F picks above — install selectively to avoid duplicate skill triggering.",
+        "iart-ai/webgl-animation-skills — small (3 stars) but focused: shader-glsl (noise, SDFs, domain warping, three.js integration), threejs-animation (camera moves, GLTF blending, instancing, GPU memory), particle-system (flow fields, curl noise, GPU Points). Fills the raw-GLSL gap the R3F pack only touches. Install: npx skills add iart-ai/webgl-animation-skills.",
+        "OpenAEC-Foundation/Three.js-Claude-Skill-Package — 9 stars, 24 deterministic SKILL.md skills (ALWAYS/NEVER style, avg 338 lines) covering three.js r160+ core, shaders (GLSL + TSL), WebGPU renderer, post-processing, physics, R3F/Drei, plus performance/rendering debug skills and scene-builder/model-optimizer agent skills. Skills live in skills/source/ — needs manual copy. Optional: deep vanilla-three.js reference with engineering/BIM slant.",
+        "Alternate single-skill route exists: npx claude-code-templates@latest --skill=creative-design/3d-web-experience --yes (davila7/claude-code-templates catalog) — one broad 3D-web skill; superseded by the dedicated packs above.",
+        "obra/superpowers ecosystem already installed on this machine (sp-brainstorming, sp-writing-plans, sp-test-driven-development, etc.) — no action needed.",
+        "Install-method gotcha: the skills.sh CLI (npx skills add <owner/repo>) and npx add-skill both default to project-level .claude/skills/. Cody's global CLAUDE.md mandates ~/.claude/skills/<skill-name>/ — use git clone + cp for global installs."
+      ],
+      "recommendations": [
+        "INSTALL (rank 1) greensock/gsap-skills globally: git clone https://github.com/greensock/gsap-skills /tmp/gsap-skills && cp -R /tmp/gsap-skills/skills/. ~/.claude/skills/ (adds gsap-core, gsap-timeline, gsap-scrolltrigger, gsap-plugins, gsap-utils, gsap-react, gsap-performance, gsap-frameworks). Project-level alternative: npx skills add https://github.com/greensock/gsap-skills",
+        "INSTALL (rank 2) EnzeD/r3f-skills globally: git clone https://github.com/EnzeD/r3f-skills /tmp/r3f-skills && cp -R /tmp/r3f-skills/skills/. ~/.claude/skills/ (adds the 11 r3f-* skills). Project-level alternative: npx add-skill EnzeD/r3f-skills",
+        "INSTALL (rank 3) from anthropics/skills, only the net-new three: git clone https://github.com/anthropics/skills /tmp/anthropic-skills && cp -R /tmp/anthropic-skills/skills/algorithmic-art /tmp/anthropic-skills/skills/canvas-design /tmp/anthropic-skills/skills/theme-factory ~/.claude/skills/ — algorithmic-art especially, for generative-shader hero visuals that sell the 'AI-augmented creative dev' pitch.",
+        "OPTIONAL (rank 4) cherry-pick from freshtechbro/claudedesignskills via marketplace: /plugin marketplace add freshtechbro/claudedesignskills then /plugin install web3d-integration-patterns plus spline-interactive or rive-interactive if those tools enter the build. Skip its gsap-scrolltrigger and react-three-fiber skills — already covered by ranks 1-2.",
+        "OPTIONAL (rank 5) iart-ai/webgl-animation-skills for hand-written GLSL and particle systems: npx skills add iart-ai/webgl-animation-skills (or clone https://github.com/iart-ai/webgl-animation-skills and copy its skill folders to ~/.claude/skills/).",
+        "SKIP for now: OpenAEC-Foundation/Three.js-Claude-Skill-Package (24 skills is a lot of trigger surface, vanilla-three.js/BIM slant, only 9 stars) — revisit only if the site goes vanilla three.js or WebGPU/TSL instead of R3F.",
+        "Avoid installing multiple overlapping three.js packs simultaneously — near-duplicate skill descriptions compete for auto-triggering; keep one R3F source (EnzeD) + one GSAP source (greensock) as canon.",
+        "After copying, verify each ~/.claude/skills/<name>/SKILL.md exists and has YAML frontmatter (name + description) so auto-load works; remove the /tmp clones afterward."
+      ],
+      "sources": [
+        "https://github.com/greensock/gsap-skills",
+        "https://github.com/EnzeD/r3f-skills",
+        "https://github.com/anthropics/skills",
+        "https://github.com/freshtechbro/claudedesignskills",
+        "https://github.com/iart-ai/webgl-animation-skills",
+        "https://github.com/OpenAEC-Foundation/Three.js-Claude-Skill-Package",
+        "https://github.com/cloudai-x/threejs-skills",
+        "https://x.com/dani_avila7/status/2020936842208821420",
+        "https://raw.githubusercontent.com/EnzeD/r3f-skills/main/README.md",
+        "https://github.com/greensock/gsap-skills/tree/main/skills",
+        "https://github.com/anthropics/skills/tree/main/skills"
+      ]
+    }
+  },
+  {
+    "key": "research:local-projects",
+    "result": {
+      "projects": [
+        {
+          "name": "Workout Buddy",
+          "local_path": "/Users/cody/workout-buddy/WorkoutBuddy",
+          "pitch": "Hypertrophy training app for iPhone and Apple Watch — live on the App Store (v1.2.0) — log sets, run auto-progressing mesocycles, and let an AI coach build your program.",
+          "tech": [
+            "React Native 0.81 / Expo 54",
+            "TypeScript",
+            "expo-router",
+            "zustand + AsyncStorage (offline-first)",
+            "Swift / SwiftUI (watch app, widgets, Live Activity)",
+            "ActivityKit / WidgetKit / App Intents / WatchConnectivity / HealthKit",
+            "Supabase (Postgres + RLS, Deno edge functions)",
+            "Anthropic API (server-side proxy)",
+            "RevenueCat",
+            "Sentry + PostHog",
+            "Jest + XCTest + Swift Testing",
+            "GitHub Actions CI + EAS"
+          ],
+          "showcase_facts": [
+            "Live on the App Store: v1.2.0, app id 6771810116 (badge + link in README)",
+            "Full SwiftUI Apple Watch app with real HKWorkoutSession — pause/resume, live/avg/max HR and active kcal that round-trip into phone history, standalone start, complication deep link, watchOS 26 Smart Stack relevance; driven by a pure, fully-tested workout state machine (targets/buddy-watch/WorkoutSessionStateMachine.swift)",
+            "Live Activity + Dynamic Island with an interactive 'Log set' AppIntent button that works while the app is suspended, plus a rest countdown that can't go stale (targets/workout-activity/WorkoutLiveActivity.swift, LogSetIntent.swift)",
+            "Siri/Shortcuts/Spotlight App Intents ('Ask Buddy', 'Start Workout'), iOS 18 Control Center + Action button control (StartWorkoutControl.swift), and home + lock-screen Steps widgets that self-refresh from the pedometer while the app is closed",
+            "Two custom Expo native modules bridge RN to the platform: WorkoutActivityBridge (ActivityKit + App Group queue + Darwin notifications) and WatchBridge (WatchConnectivity with latest-wins snapshots + guaranteed transferUserInfo for logged sets)",
+            "AI coach: 'buddy-chat' Supabase edge function proxies Anthropic with an atomic per-user dollar budget; the chat proposes program changes that the app validates and applies; accepts photos (identify a gym machine, or turn a whiteboard plan into a program)",
+            "Offline-first sync: persistent write queue to Supabase with backoff and poison-entry rotation; Postgres with RLS and 24 migrations (count verified on disk)",
+            "Auto-progression engine is a pure tested module that adds/holds/pulls back weekly sets per muscle group using RP volume landmarks (lib/progression.README.md)",
+            "473 Jest tests across 22 suites plus 93 native Swift tests (46 XCTest + 47 Swift Testing) that run via a root Package.swift with no simulator or Xcode project — CI has a README-counts drift gate so these numbers stay honest",
+            "HealthKit both directions: workouts, heart rate, bodyweight, steps; phone workouts write back to Apple Health with cross-device dedupe against the watch's own save",
+            "RevenueCat subscriptions with a revenuecat-webhook edge function; Liquid Glass chrome-only design system honoring Reduce Motion/Transparency",
+            "CASE_STUDY.md is a written engineering case study of 7 contested architecture decisions (e.g. why a JS Live-Activity wrapper was impossible: the lock-screen AppIntent perform() runs where the RN bridge may not exist)"
+          ],
+          "assets_available": [
+            "/Users/cody/workout-buddy/WorkoutBuddy/store-assets/appstore/icon/AppStore-Icon-1024.png",
+            "/Users/cody/workout-buddy/WorkoutBuddy/store-assets/appstore/iphone-6.9/ — 7 final App Store screenshots (01-buddy-a.png … 07-progress.png); sibling ipad/ and iphone-6.5/ sets",
+            "/Users/cody/workout-buddy/WorkoutBuddy/store-assets/appstore/watch/ — watch screenshots (01-lift-retro.png, 02-rest-retro.png, 03-steps-retro.png, 05-lift-dark.png)",
+            "/Users/cody/workout-buddy/WorkoutBuddy/landing/shots/ — clean app screenshots (today.png, buddy.png, program.png, progress.png, library.png, quiz.png)",
+            "/Users/cody/workout-buddy/WorkoutBuddy/landing/media/ — bezel-iphone-v16.webp, bezel-watch-v16.webp, watch-face webps, og.jpg, mascot.glb (3D mascot model)",
+            "/Users/cody/workout-buddy/WorkoutBuddy/assets/icon.png and mascot.png",
+            "/Users/cody/workout-buddy/WorkoutBuddy/landing/index.html — full marketing landing page",
+            "/Users/cody/workout-buddy/workoutbuddy-exercise-demos/ — processed exercise demo webp frames + clips/"
+          ]
+        },
+        {
+          "name": "Fusion Coffee",
+          "local_path": "/Users/cody/Fusion-Coffee",
+          "pitch": "Warm, editorial, photography-forward marketing site for Fusion Coffee, a specialty coffee shop in downtown Fairfield, Illinois.",
+          "tech": [
+            "Next.js 14 (App Router)",
+            "TypeScript",
+            "Tailwind CSS",
+            "Static export (output: 'export')",
+            "PWA (manifest + icon set)"
+          ],
+          "showcase_facts": [
+            "Fully static export — deploys anywhere; architected so it can later be wrapped into a native iOS/Android app with no rewrite",
+            "Single source of truth for all shop content (address, hours, socials, menu) in src/lib/site.ts",
+            "Installable PWA with full icon set; editorial type pairing (Fraunces display + Hanken Grotesk body) built from the shop's own moodboard (cream, brick, terracotta, oak, sage)",
+            "6 pages: Home, Menu, Order, About, Contact, Merch — Order links into the shop's live Square online ordering",
+            "Built around the shop's real white neon logo mark and real photography"
+          ],
+          "assets_available": [
+            "/Users/cody/Fusion-Coffee/public/images/ — 20+ real shop photos (hero-brick-greenery.jpg, latte-art-gingerbread.jpg, lounge-neon.jpg, drink-flight.jpg, …)",
+            "/Users/cody/Fusion-Coffee/public/logo/fusion-neon.png and fusion-neon-square.jpg",
+            "/Users/cody/Fusion-Coffee/public/og.jpg and public/icons/ (PWA icons 192/512/maskable)",
+            "/Users/cody/Fusion-Coffee/hero-options/ — 4 art-directed hero mockup PNGs",
+            "/Users/cody/Fusion-Coffee/out/ — fully built static site ready to serve"
+          ]
+        },
+        {
+          "name": "Faith Outreach Church Redesign",
+          "local_path": "/Users/cody/Faith-Outreach",
+          "pitch": "Complete redesign package for Faith Outreach Church's (Terre Haute, IN, est. 1987) Squarespace 7.1 site — plan, brand kit, paste-ready copy, build runbook, staff guide, and coded homepage previews.",
+          "tech": [
+            "Squarespace 7.1 (target platform)",
+            "Custom CSS (version-controlled backup)",
+            "Astro 5 (local preview build)",
+            "Docs-as-deliverables workflow"
+          ],
+          "showcase_facts": [
+            "12-document project binder: redesign plan, brand kit, paste-ready page copy, Squarespace runbook, plain-English staff edit guide, build sheet, SEO + AI-discoverability doc, live-site content harvest, podcast/music advisory",
+            "Redirect map built from the real sitemap so Google rankings and old links survive launch (docs/redirect-map.md)",
+            "Zero-downtime launch strategy: duplicate the live Squarespace site, rebuild privately, review, then a single domain swap goes live",
+            "3 fully art-directed clickable homepage preview variants (mockup/previews/: cedar-dusk, first-light, made-new) plus a main homepage mockup",
+            "Brand cleanup delivered: transparent logo PNG + full favicon set from the original artwork",
+            "Deliberately designed so non-technical church staff can maintain the site afterward"
+          ],
+          "assets_available": [
+            "/Users/cody/Faith-Outreach/assets/brand/ — logo-transparent.png, logo-original.png, favicon-32.png, favicon-512.png, apple-touch-180.png",
+            "/Users/cody/Faith-Outreach/mockup/homepage.html — clickable homepage preview (openable in a browser)",
+            "/Users/cody/Faith-Outreach/mockup/previews/ — cedar-dusk.html, first-light.html, made-new.html design variants",
+            "/Users/cody/Faith-Outreach/mockup/img/ — mockup imagery"
+          ]
+        },
+        {
+          "name": "Little Town Playhouse",
+          "local_path": "/Users/cody/Little-Town",
+          "pitch": "Playful, fully custom-illustrated static website for a kids' indoor play-town — 'A little town built for big imaginations.'",
+          "tech": [
+            "Hand-authored HTML/CSS/JS (zero frameworks, zero dependencies)",
+            "Custom SVG illustration system",
+            "Animated GIF heroes"
+          ],
+          "showcase_facts": [
+            "7 pages: home, memberships, our-story, parties, play-pricing, visit-us, plus a cross-brand page for the coffee shop next door ('Fusion — Coffee next door | Little Town Playhouse')",
+            "37 custom illustrated assets in assets/img/ — town hero scene, animated hero GIFs (hero-anim.gif, kids-anim.gif), building icons (cafe, open-play, parties), menu icons, mascots, logo",
+            "Entire visual identity is bespoke vector art rather than stock photography",
+            "Cross-promotion tie-in with the Fusion Coffee project (same small-town Illinois business cluster)"
+          ],
+          "assets_available": [
+            "/Users/cody/Little-Town/assets/img/ — 37 files: hero-town.svg, hero-anim.gif, kids-anim.gif, logo.svg, building-*.svg, cat-*.svg, m-*.svg menu icons, deco-*.svg",
+            "/Users/cody/Little-Town/index.html — full site opens directly in a browser for screenshots"
+          ]
+        },
+        {
+          "name": "The Harvest",
+          "local_path": "/Users/cody/the-harvest",
+          "pitch": "A native iOS Bible app centered on Jesus — full offline Bible, parchment note-taking, sermon auto-notes from on-device transcription, and an AI assistant, in a renaissance-meets-modern design.",
+          "tech": [
+            "SwiftUI (iOS 18+, iPhone-first)",
+            "Zero third-party dependencies (Apple frameworks only)",
+            "On-device speech transcription",
+            "CloudKit (user content)",
+            "AWS CDK backend (TypeScript Lambdas) proxying Claude Sonnet"
+          ],
+          "showcase_facts": [
+            "Full offline Bible bundled: KJV + World English Bible — all 66 books, 31,100+ public-domain verses, with reference + full-text search",
+            "6-ink highlight palette where every color carries a meaning (Gold = Jesus, Blush = Love, Rose = Conviction, …)",
+            "Sermons: import a podcast URL or audio file, full player, then automatic notes — on-device transcription produces key points and every scripture mentioned as tappable chips that open the reader; works with no backend at all",
+            "AI assistant ('Ask. Seek. Knock.') has full app context — current passage, your notes, your active plan — with verse chips on every answer",
+            "Documented privacy invariant: AWS holds identity, AI proxying, and money only; user content lives in CloudKit — AWS never durably stores a prayer, note, or highlight (one bounded 7-day-TTL sermon-transcript exception, marked in code)",
+            "Design system: warm near-black canvas, antique gold/bronze/parchment, New York serif + Snell Roundhand script, procedural heavenly-light backgrounds, Liquid Glass surfaces on iOS 26 with graceful fallback",
+            "Everything works offline out of the box; the AI activates only when a backend is connected"
+          ],
+          "assets_available": [
+            "/Users/cody/the-harvest/TheHarvest/Assets.xcassets/AppIcon.appiconset/AppIcon.png — app icon (no screenshots found on disk; app must be run in Simulator to capture them)"
+          ]
+        },
+        {
+          "name": "Zoo Game",
+          "local_path": "/Users/cody/Zoo-Game",
+          "pitch": "A cozy Halloween × Christmas crossover zoo-collecting game — a Nightmare-Before-Christmas-style revival of the iPod-era Tap Zoo: Arctic, rebuilt with zero dark patterns; playable prototype runs in browser and the iPhone Simulator.",
+          "tech": [
+            "Phaser 4",
+            "TypeScript",
+            "Vite",
+            "Capacitor 8 (iOS)"
+          ],
+          "showcase_facts": [
+            "Research-driven: 21 research agents, archived App Store pages, and a full teardown of the original 2010 game's files recovered from the Internet Archive (Tap Zoo was Apple's #1 top-grossing iPhone app of 2011)",
+            "Playable prototype with a 16-animal crossover roster: 6 Merry + 6 Spooky + 4 breed-only hybrids",
+            "25 original AI-generated sprites in a consistent two-anchor art style — all shipped assets are original, AI-generated, or hand-authored (recovered originals quarantined to reference/ for study only)",
+            "Custom 'Christmas Monster Mash' jingle + SFX, Fredoka font, custom SVG icon set",
+            "Modern UX decisions: hold-to-drag placement (no move mode), Clash-of-Clans-style shop with an Expand tab and dark undiscovered-animal silhouettes",
+            "Designed offline-first and cozy-generous — explicitly rejecting the original's monetization dark patterns"
+          ],
+          "assets_available": [
+            "/Users/cody/Zoo-Game/game/public/assets/sprites/ — 25 sprite PNGs (arctic-fox, black-cat, little-ghost, gingerbread-house, haunted-house, jack-o-lantern, penguin, …)",
+            "/Users/cody/Zoo-Game/game/public/assets/audio/ — custom jingle + SFX",
+            "/Users/cody/Zoo-Game/game/public/assets/ui/ and fonts/ — SVG icon set + Fredoka",
+            "Playable in browser via `cd game && npm run dev` for live screenshots"
+          ]
+        },
+        {
+          "name": "PC Pro Inspections",
+          "pitch": "Static, fast, mobile-first marketing site for a residential home-inspection business — frontend-only, architected so a backend is a drop-in later. (GitHub only: Cantrellco/PC-Pro-Inspections, public; no local copy.)",
+          "tech": [
+            "Vite",
+            "React",
+            "TypeScript",
+            "Tailwind CSS (dark theme: black with red/navy accents)",
+            "React Router",
+            "Web3Forms lead capture"
+          ],
+          "showcase_facts": [
+            "Lead capture with no backend at all via Web3Forms",
+            "Entire business content driven by one config file (src/config/siteConfig.ts) — owner fills TODOs, site updates everywhere",
+            "Polished fallback Book Now page ships until a scheduler (Cal.com/Calendly/etc.) is chosen",
+            "Architecture deep-dive and full pre-launch checklist maintained in the repo's CLAUDE.md"
+          ],
+          "assets_available": [
+            "None locally — repo lives at github.com/Cantrellco/PC-Pro-Inspections (would need cloning or a live deploy to capture screenshots)"
+          ]
+        }
+      ]
+    }
+  }
+]
