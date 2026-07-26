@@ -44,8 +44,26 @@ export const aiPipeline: PipelineEntry[] = [
   {
     asset: 'Coffee cup GLB mesh',
     model: 'image_to_3d (Meshy), textured PBR',
-    purpose: 'Live 3D prop in the work section',
+    purpose: 'Live 3D prop on the hub stage',
     credits: 30,
+  },
+  {
+    asset: 'Command-center radial plate',
+    model: 'nano_banana @ 2K',
+    purpose: 'Hub backdrop (rings + circuit traces)',
+    credits: 2,
+  },
+  {
+    asset: 'Holo stage + aurora plates (blue set)',
+    model: 'nano_banana ×2 @ 2K',
+    purpose: 'Earlier art direction pass',
+    credits: 4,
+  },
+  {
+    asset: 'Living core loop, 5s',
+    model: 'kling3_0_turbo',
+    purpose: 'Breathing video core behind the hub',
+    credits: 7.5,
   },
 ]
 

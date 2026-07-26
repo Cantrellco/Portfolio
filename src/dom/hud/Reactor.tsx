@@ -88,9 +88,31 @@ export function Reactor({ size = 460 }: { size?: number }) {
           strokeDasharray="3 9"
           opacity="0.75"
         />
+        {/* expanding shockwaves */}
+        <circle className="reactor__wave" cx="200" cy="200" r="150" fill="none" stroke="var(--accent)" strokeWidth="1.5" />
+        <circle
+          className="reactor__wave reactor__wave--late"
+          cx="200"
+          cy="200"
+          r="150"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="1.5"
+        />
+        {/* orbiting satellites */}
+        <g className="reactor__spin reactor__spin--mid">
+          <circle cx="200" cy="28" r="4" fill="var(--accent)" />
+          <circle cx="200" cy="28" r="7" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
+        </g>
+        <g className="reactor__spin reactor__spin--rev">
+          <circle cx="372" cy="200" r="3" fill="#ffb84d" />
+        </g>
+        <g className="reactor__spin reactor__spin--revslow">
+          <circle cx="200" cy="372" r="2.6" fill="var(--accent)" opacity="0.85" />
+        </g>
         {/* glowing core */}
         <circle cx="200" cy="200" r="58" fill="url(#coreGlow)" />
-        <circle cx="200" cy="200" r="30" fill="#bdf4ff" opacity="0.95" />
+        <circle className="reactor__breathe" cx="200" cy="200" r="30" fill="#bdf4ff" opacity="0.95" />
         <circle cx="200" cy="200" r="30" fill="none" stroke="var(--accent)" strokeWidth="2" />
         <defs>
           <radialGradient id="coreGlow">

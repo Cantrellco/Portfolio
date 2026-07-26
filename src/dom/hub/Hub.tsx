@@ -16,7 +16,15 @@ function unit(angle: number, radius: number) {
   return { x: Math.cos(a) * radius, y: -Math.sin(a) * radius }
 }
 
-const WB_NODE = { angle: 90, radius: 0.98, size: 1.5, readout: 'FLAGSHIP // APP STORE: LIVE' }
+const WB_NODE = { angle: 90, radius: 0.86, size: 1.5, readout: 'FLAGSHIP // APP STORE: LIVE' }
+
+// Deterministic pseudo-EKG waveform points.
+const WAVE_POINTS = Array.from({ length: 100 }, (_, i) => {
+  const x = i * 4
+  const spike = i % 25 === 12 ? 9 : i % 25 === 13 ? -7 : 0
+  const y = 12 + Math.sin(i * 0.7) * 2.2 + Math.sin(i * 0.23) * 1.6 + spike
+  return `${x},${y.toFixed(1)}`
+}).join(' ')
 
 /**
  * The hub — every project stems from the reactor core. Nodes sit on the
@@ -38,6 +46,19 @@ export function Hub() {
 
   return (
     <section className="hub" id="hub">
+      {/* living core — Higgsfield loop (logged in aiPipeline.ts) */}
+      {!window.matchMedia('(prefers-reduced-motion: reduce)').matches && (
+        <video
+          className="hub__video"
+          src="/assets/env/core-loop.mp4"
+          poster="/assets/env/studio.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      )}
+
       {/* connector traces */}
       <svg
         className="hub__wires"
@@ -59,6 +80,15 @@ export function Hub() {
               opacity="0.5"
             />
             <circle cx={pos.x * 44} cy={pos.y * 44} r="0.7" fill="var(--accent)" opacity="0.8" />
+            {/* data pulse traveling core → node */}
+            <circle className="hub__pulse" r="0.55" fill="#bdf4ff">
+              <animateMotion
+                dur={`${2.6 + (i % 4) * 0.7}s`}
+                begin={`${i * 0.4}s`}
+                repeatCount="indefinite"
+                path={`M0,0 L${pos.x * 44},${pos.y * 44}`}
+              />
+            </circle>
           </g>
         ))}
       </svg>
@@ -79,6 +109,7 @@ export function Hub() {
         onClick={() => setOpenId('workout-buddy')}
       >
         <span className="hubnode__ring" aria-hidden="true" />
+        <span className="hubnode__target" aria-hidden="true" />
         <span className="hubnode__thumb">
           <img src="/assets/wb/icon.png" alt="" loading="eager" />
         </span>
@@ -95,6 +126,7 @@ export function Hub() {
           onClick={() => setOpenId(p.id)}
         >
           <span className="hubnode__ring" aria-hidden="true" />
+          <span className="hubnode__target" aria-hidden="true" />
           <span className="hubnode__thumb">
             {p.media?.[0] && <img src={p.media[0].src} alt="" loading="lazy" />}
           </span>
@@ -118,6 +150,25 @@ export function Hub() {
           <Readout label="PRODUCTS" value="7" />
         </Panel>
       </div>
+
+      {/* ambient telemetry glyphs */}
+      <div className="hub__glyphs" aria-hidden="true">
+        <span style={{ left: '13%', top: '18%' }}>38.3781 // -88.3595</span>
+        <span style={{ right: '7%', top: '47%', animationDelay: '-4s' }}>THREADS 08 // OK</span>
+        <span style={{ left: '9%', top: '62%', animationDelay: '-7s' }}>LATENCY 12MS</span>
+        <span style={{ right: '16%', bottom: '20%', animationDelay: '-2s' }}>SIG ▮▮▮▮▯ 92%</span>
+      </div>
+
+      {/* ambient waveform */}
+      <svg className="hub__wave" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true">
+        <polyline
+          className="hub__waveline"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="1"
+          points={WAVE_POINTS}
+        />
+      </svg>
 
       <p className="hub__hint" aria-hidden="true">
         ▸ SELECT A NODE — SCROLL FOR SYSTEM LOG

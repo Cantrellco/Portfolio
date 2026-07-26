@@ -1591,6 +1591,277 @@ body::before {
   color: var(--ink);
 }
 
+/* ---------- boot sequence ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.boot__panel {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.4vw, 0.95rem);
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  min-width: min(28rem, 80vw);
+}
+
+.boot__line {
+  margin: 0.35rem 0;
+  min-height: 1.2em;
+  opacity: 0;
+  text-shadow: 0 0 12px rgba(56, 214, 255, 0.5);
+}
+
+/* ---------- reticle cursor ---------- */
+.has-reticle,
+.has-reticle a,
+.has-reticle button,
+.has-reticle summary {
+  cursor: none;
+}
+
+.reticle {
+  position: fixed;
+  top: -21px;
+  left: -21px;
+  width: 42px;
+  height: 42px;
+  z-index: 120;
+  pointer-events: none;
+  border: 1px solid rgba(56, 214, 255, 0.55);
+  border-radius: 50%;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.reticle span {
+  position: absolute;
+  background: var(--accent);
+}
+
+.reticle span:nth-child(1) {
+  top: -5px;
+  left: 50%;
+  width: 1px;
+  height: 7px;
+  transform: translateX(-50%);
+}
+.reticle span:nth-child(2) {
+  bottom: -5px;
+  left: 50%;
+  width: 1px;
+  height: 7px;
+  transform: translateX(-50%);
+}
+.reticle span:nth-child(3) {
+  left: -5px;
+  top: 50%;
+  width: 7px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+.reticle span:nth-child(4) {
+  right: -5px;
+  top: 50%;
+  width: 7px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.reticle.is-locked {
+  transform: scale(1.5) rotate(45deg);
+  border-color: var(--warn);
+}
+
+.reticle-dot {
+  position: fixed;
+  top: -2px;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  z-index: 120;
+  pointer-events: none;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* ---------- reactor extras ---------- */
+@keyframes reactor-wave {
+  0% {
+    transform: scale(0.42);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.16);
+    opacity: 0;
+  }
+}
+
+.reactor__wave {
+  transform-origin: 200px 200px;
+  animation: reactor-wave 4.2s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+}
+
+.reactor__wave--late {
+  animation-delay: -2.1s;
+}
+
+@keyframes reactor-breathe {
+  0%,
+  100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.reactor__breathe {
+  animation: reactor-breathe 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reactor__wave,
+  .reactor__breathe {
+    animation: none;
+  }
+}
+
+/* ---------- hub pulses / glyphs / waveform ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hub__pulse {
+    display: none;
+  }
+}
+
+.hub__glyphs span {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: rgba(56, 214, 255, 0.4);
+  animation: glyph-float 9s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes glyph-float {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-9px);
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub__glyphs span {
+    animation: none;
+  }
+}
+
+.hub__wave {
+  position: absolute;
+  left: 50%;
+  bottom: 2.6rem;
+  transform: translateX(-50%);
+  width: min(30rem, 60vw);
+  height: 22px;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+@keyframes wave-scan {
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
+.hub__waveline {
+  stroke-dasharray: 260 140;
+  animation: wave-scan 7s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(56, 214, 255, 0.8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub__waveline {
+    animation: none;
+  }
+}
+
+/* ---------- node targeting ---------- */
+.hubnode__target {
+  position: absolute;
+  top: -0.95rem;
+  left: 50%;
+  width: 7.6rem;
+  height: 7.6rem;
+  transform: translateX(-50%) scale(1.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  background:
+    linear-gradient(var(--accent), var(--accent)) top left / 14px 2px,
+    linear-gradient(var(--accent), var(--accent)) top left / 2px 14px,
+    linear-gradient(var(--accent), var(--accent)) top right / 14px 2px,
+    linear-gradient(var(--accent), var(--accent)) top right / 2px 14px,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 14px 2px,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 2px 14px,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 14px 2px,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 2px 14px;
+  background-repeat: no-repeat;
+}
+
+.hubnode:hover .hubnode__target,
+.hubnode:focus-visible .hubnode__target {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* scan sweep across the thumbnail on hover */
+.hubnode__thumb::after {
+  content: '';
+  position: absolute;
+  inset: -30% -60%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(138, 232, 255, 0.35) 50%,
+    transparent 58%
+  );
+  transform: translateX(-120%);
+}
+
+.hubnode:hover .hubnode__thumb::after {
+  animation: node-scan 0.8s ease forwards;
+}
+
+@keyframes node-scan {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* ---------- hub core video (living AI core) ---------- */
+.hub__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.85;
+  pointer-events: none;
+  mask-image: radial-gradient(90% 90% at 50% 50%, black 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(90% 90% at 50% 50%, black 55%, transparent 100%);
+}
+
 /* ---------- a11y ---------- */
 .visually-hidden {
   position: absolute;
