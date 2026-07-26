@@ -1240,11 +1240,24 @@ body::before {
   overflow: clip;
 }
 
+/* wires share the exact hub rect so every line converges on the true center */
 .hub__wires {
   position: absolute;
-  inset: 4svh 6vw;
-  width: 88vw;
-  height: 92svh;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* concentric guide-ring field, perfectly centered (ref-image geometry) */
+.hub__rings {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(96vmin, 1040px);
+  height: min(96vmin, 1040px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 @keyframes wire-flow {
@@ -1268,6 +1281,16 @@ body::before {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  z-index: 2;
+}
+
+.hub__id {
+  position: absolute;
+  left: 50%;
+  bottom: 8svh;
+  transform: translateX(-50%);
   display: grid;
   justify-items: center;
   text-align: center;

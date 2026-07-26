@@ -18,11 +18,11 @@ const STATS = [
 export function Receipts() {
   return (
     <section id="receipts" className="scene receipts" data-depth="mid">
-      <p className="scene__eyebrow">The receipts</p>
-      <h2 className="scene__title">Numbers a CEO can check.</h2>
+      <p className="scene__eyebrow">Telemetry</p>
+      <h2 className="scene__title">The numbers behind the work.</h2>
       <p className="scene__copy">
-        Everything below is verifiable — in the public repos, the App Store build, or this
-        site’s own commit history.
+        Nothing here is taken on faith — each figure can be checked in the public repos, the
+        App Store build, or this site’s commit history.
       </p>
 
       <div className="receipts__grid">
@@ -33,11 +33,11 @@ export function Receipts() {
         </div>
 
         <aside className="receipts__pipeline">
-          <h3>The generative pipeline, on the record</h3>
+          <h3>How the generative work is run</h3>
           <p>
-            Every AI-generated asset on this page is logged — model, purpose, and what it
-            actually cost. The devices are deliberately <em>not</em> AI: procedural geometry
-            with real App Store screenshots.
+            When I use AI to produce an asset, it gets a brief, a review, and a line in this
+            ledger — model, purpose, real cost. Product screenshots stay real; generation is
+            a tool I direct, not a substitute for the work.
           </p>
           <table>
             <thead>

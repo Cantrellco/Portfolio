@@ -26,8 +26,8 @@ export const buildLog: LogEntry[] = [
 
 /** Aggregates shown at the end of the replay — all verifiable. */
 export const buildStats = [
-  { value: '1', label: 'day to a working 3D site' },
-  { value: '8–12', label: 'weeks: typical studio timeline for a site like this' },
-  { value: '405k', label: 'tokens of research before the first line of code' },
-  { value: '100%', label: 'of this log verifiable in the public repo' },
+  { value: '1', label: 'day from empty repo to a working 3D site' },
+  { value: '8', label: 'research agents briefed and directed before any code' },
+  { value: 'every', label: 'change verified against screenshots and tests before shipping' },
+  { value: '100%', label: 'of this log checkable in the public repo' },
 ]

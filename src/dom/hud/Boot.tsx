@@ -46,7 +46,17 @@ export function Boot({ onDone }: { onDone: () => void }) {
       )
     })
     tl.to({}, { duration: 0.35 }) // hold on ACCESS GRANTED
+
+    // Hard fallback: a throttled tab (background load, low-power mode) must
+    // never leave the visitor stuck on the boot screen.
+    const failsafe = window.setTimeout(() => {
+      tl.kill()
+      gsap.set(el, { opacity: 0 })
+      done.current()
+    }, 3200)
+
     return () => {
+      window.clearTimeout(failsafe)
       tl.kill()
     }
   }, [])

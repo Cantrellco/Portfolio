@@ -20,6 +20,10 @@ export function scrollToSection(hash: string): void {
  * of truth for the 3D journey) and requests GL frames on demand.
  */
 export function initSmoothScroll(): SmoothScroll {
+  // Throttled tabs must not stall one-shot timelines (boot, entrance):
+  // with lag smoothing off, tweens jump to wall-clock time on each tick.
+  gsap.ticker.lagSmoothing(0)
+
   const master = ScrollTrigger.create({
     trigger: document.body,
     start: 'top top',

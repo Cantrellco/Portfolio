@@ -22,10 +22,10 @@ export const journey: Scene[] = [
   },
   {
     id: 'build-log',
-    eyebrow: 'The build, on the record',
-    title: 'AI velocity, with receipts.',
+    eyebrow: 'System log — how I work with AI',
+    title: 'Agents draft. I direct and verify.',
     copy:
-      'An engineering log, not a claim. Agent fan-outs, commits, and screenshot-verified fixes from this site’s own history — every line checkable against the public repo.',
+      'My workflow, shown rather than described: I brief agent fleets, review what comes back, and verify every change against real screenshots and tests before it ships. Below is that loop from this site’s own history — each line checkable in the public repo.',
     depth: 'mid',
   },
   {

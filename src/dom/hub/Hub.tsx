@@ -84,6 +84,24 @@ export function Hub() {
       )}
 
       <div className="hub__stage" ref={stage}>
+      {/* concentric guide rings — the reference geometry, dead-centered */}
+      <svg className="hub__rings" viewBox="-50 -50 100 100" aria-hidden="true">
+        <circle r="16" fill="none" stroke="var(--accent)" strokeWidth="0.12" opacity="0.5" />
+        <circle r="24" fill="none" stroke="var(--accent)" strokeWidth="0.1" opacity="0.4" />
+        <circle
+          r="30"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="0.35"
+          strokeDasharray="0.3 1.4"
+          opacity="0.5"
+        />
+        <circle r="38" fill="none" stroke="var(--accent)" strokeWidth="0.1" opacity="0.35" />
+        <circle r="46" fill="none" stroke="var(--accent)" strokeWidth="0.14" opacity="0.3" />
+        <line x1="-50" y1="0" x2="50" y2="0" stroke="var(--accent)" strokeWidth="0.06" opacity="0.3" />
+        <line x1="0" y1="-50" x2="0" y2="50" stroke="var(--accent)" strokeWidth="0.06" opacity="0.3" />
+      </svg>
+
       {/* connector traces */}
       <svg
         className="hub__wires"
@@ -118,12 +136,14 @@ export function Hub() {
         ))}
       </svg>
 
-      {/* reactor core + identity */}
+      {/* reactor core — dead center; identity sits below, off the geometry */}
       <div className="hub__core">
-        <Reactor size={330} />
+        <Reactor size={410} />
+      </div>
+      <div className="hub__id">
         <h1 className="hub__name">CODY CANTRELL</h1>
         <p className="hub__tagline">
-          APPLE-GRADE SOFTWARE AT <em>AI SPEED</em>
+          APPLE-GRADE SOFTWARE, <em>AI-DRIVEN WORKFLOW</em>
         </p>
       </div>
 
@@ -180,7 +200,7 @@ export function Hub() {
       {/* ambient telemetry glyphs */}
       <div className="hub__glyphs" aria-hidden="true">
         <span style={{ left: '13%', top: '18%' }}>38.3781 // -88.3595</span>
-        <span style={{ right: '7%', top: '47%', animationDelay: '-4s' }}>THREADS 08 // OK</span>
+        <span style={{ left: '21%', top: '42%', animationDelay: '-4s' }}>THREADS 08 // OK</span>
         <span style={{ left: '9%', top: '62%', animationDelay: '-7s' }}>LATENCY 12MS</span>
         <span style={{ right: '16%', bottom: '20%', animationDelay: '-2s' }}>SIG ▮▮▮▮▯ 92%</span>
       </div>

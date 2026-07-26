@@ -71,7 +71,7 @@ export const projects: Project[] = [
   },
   {
     id: 'faith-outreach',
-    node: { angle: 270, radius: 1.0, size: 0.9, readout: 'ZERO-DOWNTIME RELAUNCH' },
+    node: { angle: 0, radius: 1.0, size: 0.9, readout: 'ZERO-DOWNTIME RELAUNCH' },
     media: [
       { src: '/assets/projects/faith-outreach-hero.jpg', alt: 'fochurch.org homepage hero after the redesign' },
       { src: '/assets/projects/faith-outreach-2.jpg', alt: 'Plan Your Visit page — editorial layout' },

@@ -48,7 +48,7 @@ export default function App() {
         '-=0.45',
       )
       .fromTo(
-        ['.statusbar', '.rail', '.hub__corner', '.hub__hint', '.hub__glyphs', '.hub__wave'],
+        ['.statusbar', '.rail', '.hub__corner', '.hub__hint', '.hub__glyphs', '.hub__wave', '.hub__id'],
         { opacity: 0 },
         { opacity: 1, duration: d * 0.5 },
         '-=0.3',
