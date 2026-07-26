@@ -12,11 +12,17 @@ export interface Project {
   approach: string
   results: string[]
   link?: string
+  /** Real screenshots/collages captured from the shipped work. */
+  media?: { src: string; alt: string }[]
 }
 
 export const projects: Project[] = [
   {
     id: 'harvest',
+    media: [
+      { src: '/assets/projects/harvest-hero.jpg', alt: 'The Harvest app icon — radiant wheat sheaf' },
+      { src: '/assets/projects/harvest-2.jpg', alt: 'Original in-app artwork: dove with halo' },
+    ],
     name: 'The Harvest',
     tagline: 'Native SwiftUI Bible app — zero third-party dependencies.',
     tech: ['SwiftUI', 'CloudKit', 'Core ML', 'AVFoundation'],
@@ -32,6 +38,9 @@ export const projects: Project[] = [
   },
   {
     id: 'zoo-game',
+    media: [
+      { src: '/assets/projects/zoo-game-hero.jpg', alt: 'Original AI-generated animal sprites in one consistent style' },
+    ],
     name: 'Zoo Game',
     tagline: 'Reviving Apple’s #1 top-grossing iPhone app of 2011.',
     tech: ['Phaser 4', 'Capacitor 8', 'AI art pipeline'],
@@ -43,6 +52,10 @@ export const projects: Project[] = [
   },
   {
     id: 'fusion-coffee',
+    media: [
+      { src: '/assets/projects/fusion-coffee-hero.jpg', alt: 'Fusion Coffee homepage hero — real interior photography' },
+      { src: '/assets/projects/fusion-coffee-2.jpg', alt: 'Our Story section with sunlit shop photography' },
+    ],
     name: 'Fusion Coffee',
     tagline: 'Marketing site for a real specialty coffee shop.',
     tech: ['Next.js 14', 'Static export', 'PWA'],
@@ -54,6 +67,10 @@ export const projects: Project[] = [
   },
   {
     id: 'little-town',
+    media: [
+      { src: '/assets/projects/little-town-hero.jpg', alt: 'Little Town Playhouse homepage with bespoke illustration' },
+      { src: '/assets/projects/little-town-2.jpg', alt: 'Illustration-rich interior page' },
+    ],
     name: 'Little Town Playhouse',
     tagline: 'Hand-authored site with 37 bespoke illustrated assets.',
     tech: ['Zero dependencies', 'Hand-rolled CSS', 'SVG illustration'],
@@ -63,9 +80,13 @@ export const projects: Project[] = [
   },
   {
     id: 'faith-outreach',
+    media: [
+      { src: '/assets/projects/faith-outreach-hero.jpg', alt: 'fochurch.org homepage hero after the redesign' },
+      { src: '/assets/projects/faith-outreach-2.jpg', alt: 'Plan Your Visit page — editorial layout' },
+    ],
     name: 'Faith Outreach Church',
     tagline: 'Zero-downtime redesign with a 12-document client binder.',
-    tech: ['Squarespace 7.1', 'SEO redirect map', 'Client enablement'],
+    tech: ['Astro', 'SEO redirect map', 'Client enablement'],
     challenge: 'Redesign a live church site without breaking search traffic — or the volunteers who edit it.',
     approach:
       'Duplicate → build → domain-swap launch plan, full redirect map preserving SEO, and a staff edit guide so the client owns the result.',
@@ -73,6 +94,9 @@ export const projects: Project[] = [
   },
   {
     id: 'pc-pro',
+    media: [
+      { src: '/assets/projects/pc-pro-hero.jpg', alt: 'PC Pro Inspections homepage hero' },
+    ],
     name: 'PC Pro Inspections',
     tagline: 'Config-driven site with backendless lead capture.',
     tech: ['Vite', 'React', 'Serverless forms'],

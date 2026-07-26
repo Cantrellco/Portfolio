@@ -61,8 +61,8 @@ export function setupChoreography(): () => void {
           onUpdate: requestFrame,
         },
       })
-      .to(deviceState.phone, { x: -6.5, y: 0.6, z: -6, ry: 0.6, scale: 0.9, duration: 3 })
-      .to(deviceState.watch, { x: 7, y: -1.2, z: -7, ry: -0.7, duration: 3 }, '<')
+      .to(deviceState.phone, { x: -8, y: 0.6, z: -8, ry: 0.6, scale: 0.001, duration: 3 })
+      .to(deviceState.watch, { x: 9, y: -1.4, z: -9, ry: -0.7, scale: 0.001, duration: 3 }, '<')
 
     // Feature step → screenshot + DOM callout highlight.
     ScrollTrigger.create({

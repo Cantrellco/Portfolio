@@ -22,10 +22,10 @@ export const journey: Scene[] = [
   },
   {
     id: 'build-log',
-    eyebrow: 'Watch this site build itself',
+    eyebrow: 'The build, on the record',
     title: 'AI velocity, with receipts.',
     copy:
-      'This page was engineered with Claude Code. Scroll through the real build log — prompts, diffs, decisions — while the scene around you assembles. A focused immersive site is 8–12 studio weeks; you are looking at the AI-augmented alternative.',
+      'An engineering log, not a claim. Agent fan-outs, commits, and screenshot-verified fixes from this site’s own history — every line checkable against the public repo.',
     depth: 'mid',
   },
   {
