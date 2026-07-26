@@ -20,7 +20,17 @@ export default function App() {
 
   useEffect(() => {
     const smooth = initSmoothScroll()
-    return () => smooth.destroy()
+    // Section reveal: system screens power on as they enter the viewport.
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-live')),
+      { threshold: 0.25 },
+    )
+    document.querySelectorAll('.scene').forEach((s) => io.observe(s))
+    return () => {
+      io.disconnect()
+      smooth.destroy()
+    }
   }, [])
 
   // Ignition after boot: core → wires → nodes radiate out → chrome.
@@ -53,6 +63,7 @@ export default function App() {
       <Experience />
       <ParticleField />
       <Reticle />
+      <div className="sweep" aria-hidden="true" />
       <StatusBar />
       <Rail />
       {!booted && <Boot onDone={() => setBooted(true)} />}

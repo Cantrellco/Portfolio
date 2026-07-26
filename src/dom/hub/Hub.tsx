@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import gsap from 'gsap'
 import { projects } from '../../lib/projects'
 import type { Project } from '../../lib/projects'
 import { Reactor } from '../hud/Reactor'
 import { Panel, Readout } from '../hud/Panel'
 import { FileOverlay, WorkoutBuddyFile } from './FileOverlay'
+import type { FileOrigin } from './FileOverlay'
+import { sceneState } from '../../lib/sceneState'
 
 /**
  * Unit position on the constellation (CSS y is down; angle CCW from east).
@@ -31,8 +34,9 @@ const WAVE_POINTS = Array.from({ length: 100 }, (_, i) => {
  * constellation, wired to the center; clicking one opens its file.
  */
 export function Hub() {
-  const [openId, setOpenId] = useState<string | null>(null)
-  const open = projects.find((p) => p.id === openId) ?? null
+  const [open, setOpen] = useState<{ id: string; origin: FileOrigin } | null>(null)
+  const openProject = projects.find((p) => p.id === open?.id) ?? null
+  const stage = useRef<HTMLDivElement>(null)
 
   const nodes = useMemo(
     () =>
@@ -43,6 +47,26 @@ export function Hub() {
     [],
   )
   const wbPos = unit(WB_NODE.angle, WB_NODE.radius)
+
+  const openFrom = (id: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    setOpen({ id, origin: { x: r.left + r.width / 2, y: r.top + r.height / 2 } })
+  }
+
+  // Holographic depth: constellation drifts with the cursor.
+  useEffect(() => {
+    if (sceneState.reducedMotion) return
+    const el = stage.current
+    if (!el) return
+    const qx = gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power2.out' })
+    const qy = gsap.quickTo(el, 'y', { duration: 0.9, ease: 'power2.out' })
+    const move = (e: PointerEvent) => {
+      qx(((e.clientX / window.innerWidth) * 2 - 1) * 13)
+      qy(((e.clientY / window.innerHeight) * 2 - 1) * 9)
+    }
+    window.addEventListener('pointermove', move, { passive: true })
+    return () => window.removeEventListener('pointermove', move)
+  }, [])
 
   return (
     <section className="hub" id="hub">
@@ -59,6 +83,7 @@ export function Hub() {
         />
       )}
 
+      <div className="hub__stage" ref={stage}>
       {/* connector traces */}
       <svg
         className="hub__wires"
@@ -106,7 +131,7 @@ export function Hub() {
       <button
         className="hubnode hubnode--flagship"
         style={nodeStyle(wbPos, WB_NODE.size)}
-        onClick={() => setOpenId('workout-buddy')}
+        onClick={openFrom('workout-buddy')}
       >
         <span className="hubnode__ring" aria-hidden="true" />
         <span className="hubnode__target" aria-hidden="true" />
@@ -118,12 +143,12 @@ export function Hub() {
       </button>
 
       {/* project nodes */}
-      {nodes.map(({ p, pos }) => (
+      {nodes.map(({ p, pos }, i) => (
         <button
           key={p.id}
           className="hubnode"
-          style={nodeStyle(pos, p.node.size)}
-          onClick={() => setOpenId(p.id)}
+          style={nodeStyle(pos, p.node.size, i)}
+          onClick={openFrom(p.id)}
         >
           <span className="hubnode__ring" aria-hidden="true" />
           <span className="hubnode__target" aria-hidden="true" />
@@ -134,6 +159,7 @@ export function Hub() {
           <span className="hubnode__readout">{p.node.readout}</span>
         </button>
       ))}
+      </div>
 
       {/* corner instrument modules */}
       <div className="hub__corner hub__corner--left">
@@ -147,7 +173,7 @@ export function Hub() {
         <Panel title="LIVE STATUS">
           <Readout label="SYSTEM" value="ONLINE" />
           <Readout label="TESTS PASSING" value="566" />
-          <Readout label="PRODUCTS" value="7" />
+          <Readout label="PRODUCTS" value="6" />
         </Panel>
       </div>
 
@@ -174,17 +200,30 @@ export function Hub() {
         ▸ SELECT A NODE — SCROLL FOR SYSTEM LOG
       </p>
 
-      {openId === 'workout-buddy' && <WorkoutBuddyFile onClose={() => setOpenId(null)} />}
-      {open && <FileOverlay project={open as Project} onClose={() => setOpenId(null)} />}
+      {open?.id === 'workout-buddy' && (
+        <WorkoutBuddyFile origin={open.origin} onClose={() => setOpen(null)} />
+      )}
+      {openProject && open && (
+        <FileOverlay
+          project={openProject as Project}
+          origin={open.origin}
+          onClose={() => setOpen(null)}
+        />
+      )}
     </section>
   )
 }
 
-function nodeStyle(pos: { x: number; y: number }, size: number): React.CSSProperties {
+function nodeStyle(
+  pos: { x: number; y: number },
+  size: number,
+  index = 0,
+): React.CSSProperties {
   // 44/110 of the wire viewBox == 40% of the hub rect.
   return {
     left: `calc(50% + ${(pos.x * 40).toFixed(2)}%)`,
     top: `calc(50% + ${(pos.y * 40).toFixed(2)}%)`,
     ['--node-scale' as string]: size,
+    ['--bob-delay' as string]: `${(index * 1.3).toFixed(1)}s`,
   }
 }

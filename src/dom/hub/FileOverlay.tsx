@@ -1,34 +1,116 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
+import gsap from 'gsap'
 import type { Project } from '../../lib/projects'
 import { Panel, Readout } from '../hud/Panel'
+import { sceneState } from '../../lib/sceneState'
+
+export interface FileOrigin {
+  x: number
+  y: number
+}
 
 function Shell({
   title,
   onClose,
+  origin,
   children,
 }: {
   title: string
   onClose: () => void
+  origin?: FileOrigin
   children: ReactNode
 }) {
+  const root = useRef<HTMLDivElement>(null)
+  const panel = useRef<HTMLDivElement>(null)
+  const closing = useRef(false)
+
+  // Materialize from the clicked node: backdrop irises out from the click
+  // point while the panel flies in from the node, over-bright, with a
+  // one-frame glitch as it locks into place.
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    const rootEl = root.current
+    const panelEl = panel.current
+    if (!rootEl || !panelEl) return
+    if (sceneState.reducedMotion) return
+
+    const ox = origin?.x ?? window.innerWidth / 2
+    const oy = origin?.y ?? window.innerHeight / 2
+    const rect = panelEl.getBoundingClientRect()
+    const dx = ox - (rect.left + rect.width / 2)
+    const dy = oy - (rect.top + rect.height / 2)
+
+    const tl = gsap.timeline()
+    tl.fromTo(
+      rootEl,
+      { clipPath: `circle(24px at ${ox}px ${oy}px)` },
+      { clipPath: `circle(142% at ${ox}px ${oy}px)`, duration: 0.55, ease: 'power3.inOut' },
+    )
+      .fromTo(
+        panelEl,
+        { x: dx, y: dy, scale: 0.06, opacity: 0.3, filter: 'brightness(2.4) saturate(1.6)' },
+        {
+          x: 0,
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          filter: 'brightness(1) saturate(1)',
+          duration: 0.6,
+          ease: 'expo.out',
+        },
+        0.12,
+      )
+      .add(() => panelEl.classList.add('is-glitch'), 0.55)
+      .add(() => panelEl.classList.remove('is-glitch'), 0.85)
+      .fromTo(
+        panelEl.querySelectorAll('.file__body > *'),
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' },
+        0.4,
+      )
+    return () => {
+      tl.kill()
+    }
+  }, [origin])
+
+  const close = useCallback(() => {
+    if (closing.current) return
+    closing.current = true
+    const rootEl = root.current
+    const panelEl = panel.current
+    if (sceneState.reducedMotion || !rootEl || !panelEl) {
+      onClose()
+      return
+    }
+    const ox = origin?.x ?? window.innerWidth / 2
+    const oy = origin?.y ?? window.innerHeight / 2
+    gsap
+      .timeline({ onComplete: onClose })
+      .to(panelEl, { scale: 0.08, opacity: 0, duration: 0.32, ease: 'power3.in' })
+      .to(
+        rootEl,
+        { clipPath: `circle(20px at ${ox}px ${oy}px)`, duration: 0.3, ease: 'power3.in' },
+        0.08,
+      )
+  }, [onClose, origin])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close()
     window.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [onClose])
+  }, [close])
 
   return (
-    <div className="file" role="dialog" aria-modal="true" aria-label={title} onClick={onClose}>
-      <div className="file__panel" onClick={(e) => e.stopPropagation()}>
+    <div className="file" role="dialog" aria-modal="true" aria-label={title} onClick={close} ref={root}>
+      <div className="file__panel" onClick={(e) => e.stopPropagation()} ref={panel}>
         <header className="file__head">
           <span className="hudpanel__tick" aria-hidden="true" />
           <span className="file__title">{title}</span>
-          <button className="file__close" onClick={onClose} aria-label="Close file">
+          <button className="file__close" onClick={close} aria-label="Close file">
             ✕ CLOSE
           </button>
         </header>
@@ -38,18 +120,30 @@ function Shell({
   )
 }
 
-/** Generic project file. */
-export function FileOverlay({ project, onClose }: { project: Project; onClose: () => void }) {
+/** Generic project file — hero banner, meta chips, case-study modules. */
+export function FileOverlay({
+  project,
+  origin,
+  onClose,
+}: {
+  project: Project
+  origin?: FileOrigin
+  onClose: () => void
+}) {
+  const hero = project.media?.[0]
+  const rest = project.media?.slice(1) ?? []
   return (
-    <Shell title={`FILE // ${project.name.toUpperCase()}`} onClose={onClose}>
-      <p className="file__tagline">{project.tagline}</p>
-      {project.media && (
-        <div className="file__media">
-          {project.media.map((m) => (
-            <img key={m.src} src={m.src} alt={m.alt} loading="lazy" />
-          ))}
-        </div>
+    <Shell title={`FILE // ${project.name.toUpperCase()}`} onClose={onClose} origin={origin}>
+      {hero && (
+        <figure className="file__hero">
+          <img src={hero.src} alt={hero.alt} />
+          <figcaption>
+            <span>◈ CAPTURE // LIVE PRODUCT</span>
+            <span>{hero.alt.toUpperCase()}</span>
+          </figcaption>
+        </figure>
       )}
+      <p className="file__tagline">{project.tagline}</p>
       <ul className="work__tech" aria-label="Technology">
         {project.tech.map((t) => (
           <li key={t}>{t}</li>
@@ -70,6 +164,13 @@ export function FileOverlay({ project, onClose }: { project: Project; onClose: (
           </ul>
         </Panel>
       </div>
+      {rest.length > 0 && (
+        <div className="file__media">
+          {rest.map((m) => (
+            <img key={m.src} src={m.src} alt={m.alt} loading="lazy" />
+          ))}
+        </div>
+      )}
       {project.link && (
         <a className="file__link" href={project.link} target="_blank" rel="noreferrer">
           OPEN REPOSITORY ▸
@@ -79,20 +180,44 @@ export function FileOverlay({ project, onClose }: { project: Project; onClose: (
   )
 }
 
-/** Flagship file — Workout Buddy, full telemetry. */
-export function WorkoutBuddyFile({ onClose }: { onClose: () => void }) {
+/** Flagship file — Workout Buddy, current App Store captures + telemetry. */
+export function WorkoutBuddyFile({
+  origin,
+  onClose,
+}: {
+  origin?: FileOrigin
+  onClose: () => void
+}) {
   return (
-    <Shell title="FILE // WORKOUT BUDDY — FLAGSHIP" onClose={onClose}>
+    <Shell title="FILE // WORKOUT BUDDY — FLAGSHIP" onClose={onClose} origin={origin}>
+      <div className="file__metrics" aria-label="Key metrics">
+        <div>
+          <strong>LIVE</strong>
+          <span>APP STORE v1.2</span>
+        </div>
+        <div>
+          <strong>566</strong>
+          <span>AUTOMATED TESTS</span>
+        </div>
+        <div>
+          <strong>24</strong>
+          <span>PROD MIGRATIONS</span>
+        </div>
+        <div>
+          <strong>2</strong>
+          <span>NATIVE SWIFT BRIDGES</span>
+        </div>
+      </div>
       <p className="file__tagline">
         iOS workout tracker, live on the App Store. React Native + Expo with hand-built Swift
         native modules — one person, the whole Apple stack.
       </p>
       <div className="file__media file__media--shots">
-        <img src="/assets/wb/shot-today.png" alt="Today screen with active workout" />
-        <img src="/assets/wb/shot-buddy.png" alt="AI coach chat" />
-        <img src="/assets/wb/shot-program.png" alt="Programs screen" />
-        <img src="/assets/wb/shot-progress.png" alt="Progress charts" />
-        <img src="/assets/wb/watch-lift.png" alt="Apple Watch lift session" />
+        <img src="/assets/wb/store-today.jpg" alt="Today screen — current App Store capture" />
+        <img src="/assets/wb/store-buddy.jpg" alt="AI coach chat — current App Store capture" />
+        <img src="/assets/wb/store-program.jpg" alt="Programs — current App Store capture" />
+        <img src="/assets/wb/store-progress.jpg" alt="Progress — current App Store capture" />
+        <img src="/assets/wb/watch-lift.png" alt="Apple Watch live lift session" />
       </div>
       <div className="file__cols file__cols--wide">
         <Panel title="DEPLOYMENT">

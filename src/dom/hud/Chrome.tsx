@@ -8,12 +8,26 @@ const SECTIONS = [
   { href: '#process', label: 'COMMS' },
 ]
 
-/** Top status bar — system readouts + live clock, ref-theme style. */
+const TICKER = [
+  'ANALYZING PROJECT GRAPH',
+  '566 TESTS PASSING',
+  'AGENTS IDLE — 0 RUNNING',
+  'CORE TEMP NOMINAL',
+  'UPLINK STABLE // 92%',
+  'FLAGSHIP: APP STORE LIVE',
+]
+
+/** Top status bar — system readouts, live clock, rotating telemetry ticker. */
 export function StatusBar() {
   const [now, setNow] = useState(() => new Date())
+  const [tick, setTick] = useState(0)
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
-    return () => clearInterval(id)
+    const tid = setInterval(() => setTick((t) => (t + 1) % TICKER.length), 4000)
+    return () => {
+      clearInterval(id)
+      clearInterval(tid)
+    }
   }, [])
   const date = now.toLocaleDateString('en-US', {
     weekday: 'short',
@@ -29,6 +43,9 @@ export function StatusBar() {
       <span className="statusbar__time">{time}</span>
       <span className="statusbar__sep" />
       <span className="statusbar__loc">FAIRFIELD, IL</span>
+      <span className="statusbar__ticker" key={tick}>
+        {TICKER[tick]}
+      </span>
       <span className="statusbar__online">
         <span className="pulse" aria-hidden="true" /> SYS ONLINE
       </span>

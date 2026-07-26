@@ -21,7 +21,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 'harvest',
-    node: { angle: 38, radius: 1.0, size: 1.0, readout: '31,100 VERSES OFFLINE' },
+    node: { angle: 30, radius: 1.0, size: 1.0, readout: '31,100 VERSES OFFLINE' },
     media: [
       { src: '/assets/projects/harvest-hero.jpg', alt: 'The Harvest app icon — radiant wheat sheaf' },
       { src: '/assets/projects/harvest-2.jpg', alt: 'Original in-app artwork: dove with halo' },
@@ -40,23 +40,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'zoo-game',
-    node: { angle: -25, radius: 1.02, size: 0.95, readout: '25 AI SPRITES // #1 OF 2011' },
-    media: [
-      { src: '/assets/projects/zoo-game-hero.jpg', alt: 'Original AI-generated animal sprites in one consistent style' },
-    ],
-    name: 'Zoo Game',
-    tagline: 'Reviving Apple’s #1 top-grossing iPhone app of 2011.',
-    tech: ['Phaser 4', 'Capacitor 8', 'AI art pipeline'],
-    challenge:
-      'Tap Zoo: Arctic died with its servers. Could its collecting joy be rebuilt — honestly, with zero dark patterns?',
-    approach:
-      '21 research agents + an Internet Archive teardown reconstructed the original design; 25 original sprites generated in one consistent AI-art-directed style.',
-    results: ['Full design teardown of a lost game', '25 style-consistent AI sprites', 'Zero dark patterns by design'],
-  },
-  {
     id: 'fusion-coffee',
-    node: { angle: 142, radius: 1.0, size: 0.95, readout: 'LIVE CLIENT SITE' },
+    node: { angle: 150, radius: 1.0, size: 0.95, readout: 'LIVE CLIENT SITE' },
     media: [
       { src: '/assets/projects/fusion-coffee-hero.jpg', alt: 'Fusion Coffee homepage hero — real interior photography' },
       { src: '/assets/projects/fusion-coffee-2.jpg', alt: 'Our Story section with sunlit shop photography' },
@@ -72,7 +57,7 @@ export const projects: Project[] = [
   },
   {
     id: 'little-town',
-    node: { angle: 198, radius: 1.04, size: 0.9, readout: '0 DEPENDENCIES // 37 ASSETS' },
+    node: { angle: 210, radius: 1.04, size: 0.9, readout: '0 DEPENDENCIES // 37 ASSETS' },
     media: [
       { src: '/assets/projects/little-town-hero.jpg', alt: 'Little Town Playhouse homepage with bespoke illustration' },
       { src: '/assets/projects/little-town-2.jpg', alt: 'Illustration-rich interior page' },
@@ -86,7 +71,7 @@ export const projects: Project[] = [
   },
   {
     id: 'faith-outreach',
-    node: { angle: 250, radius: 1.0, size: 0.9, readout: 'ZERO-DOWNTIME RELAUNCH' },
+    node: { angle: 270, radius: 1.0, size: 0.9, readout: 'ZERO-DOWNTIME RELAUNCH' },
     media: [
       { src: '/assets/projects/faith-outreach-hero.jpg', alt: 'fochurch.org homepage hero after the redesign' },
       { src: '/assets/projects/faith-outreach-2.jpg', alt: 'Plan Your Visit page — editorial layout' },
@@ -101,7 +86,7 @@ export const projects: Project[] = [
   },
   {
     id: 'pc-pro',
-    node: { angle: 305, radius: 1.02, size: 0.85, readout: 'BACKENDLESS LEADS' },
+    node: { angle: 330, radius: 1.02, size: 0.85, readout: 'BACKENDLESS LEADS' },
     media: [
       { src: '/assets/projects/pc-pro-hero.jpg', alt: 'PC Pro Inspections homepage hero' },
     ],

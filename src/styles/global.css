@@ -1862,6 +1862,230 @@ body::before {
   -webkit-mask-image: radial-gradient(90% 90% at 50% 50%, black 55%, transparent 100%);
 }
 
+/* ---------- push-further layer ---------- */
+.hub__stage {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* idle node bob */
+@keyframes node-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.hubnode__thumb {
+  animation: node-bob 6.5s ease-in-out infinite;
+  animation-delay: var(--bob-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hubnode__thumb {
+    animation: none;
+  }
+}
+
+/* rotating status ticker */
+.statusbar__ticker {
+  color: var(--accent-dim);
+  animation: ticker-in 0.5s ease;
+}
+
+@keyframes ticker-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .statusbar__ticker {
+    display: none;
+  }
+}
+
+/* periodic viewport scan sweep */
+.sweep {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -6%;
+  height: 3.5rem;
+  z-index: 45;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(56, 214, 255, 0.05) 45%,
+    rgba(138, 232, 255, 0.12) 50%,
+    rgba(56, 214, 255, 0.05) 55%,
+    transparent
+  );
+  animation: sweep-travel 9s linear infinite;
+}
+
+@keyframes sweep-travel {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  38% {
+    transform: translateY(115vh);
+    opacity: 1;
+  }
+  40%,
+  100% {
+    transform: translateY(115vh);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep {
+    display: none;
+  }
+}
+
+/* system screens power on */
+.scene {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.scene.is-live {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- file overlay v2 ---------- */
+.file {
+  will-change: clip-path;
+}
+
+.file__panel {
+  will-change: transform, filter;
+}
+
+@keyframes file-glitch {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+  20% {
+    clip-path: inset(12% 0 64% 0);
+    transform: translateX(-6px);
+  }
+  40% {
+    clip-path: inset(58% 0 8% 0);
+    transform: translateX(5px);
+  }
+  60% {
+    clip-path: inset(30% 0 42% 0);
+    transform: translateX(-3px);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+}
+
+.file__panel.is-glitch {
+  animation: file-glitch 0.28s steps(2) both;
+}
+
+.file__hero {
+  position: relative;
+  margin: 1.1rem 0 0;
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+.file__hero img {
+  width: 100%;
+  max-height: 21rem;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.file__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    rgba(5, 10, 18, 0.14) 3px 4px
+  );
+  pointer-events: none;
+}
+
+.file__hero figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  border-top: 1px solid var(--hairline);
+  background: rgba(8, 18, 30, 0.85);
+}
+
+.file__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  margin-top: 1.1rem;
+}
+
+.file__metrics > div {
+  background: rgba(8, 18, 30, 0.9);
+  padding: 0.8rem 1rem;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.file__metrics strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--accent);
+  text-shadow: 0 0 14px rgba(56, 214, 255, 0.5);
+}
+
+.file__metrics span {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
 /* ---------- a11y ---------- */
 .visually-hidden {
   position: absolute;

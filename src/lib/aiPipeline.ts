@@ -38,13 +38,13 @@ export const aiPipeline: PipelineEntry[] = [
   {
     asset: 'Dumbbell GLB mesh',
     model: 'image_to_3d (Meshy), textured PBR',
-    purpose: 'Live 3D prop in the flagship scene',
+    purpose: 'Stage prop (retired in hub rework)',
     credits: 30,
   },
   {
     asset: 'Coffee cup GLB mesh',
     model: 'image_to_3d (Meshy), textured PBR',
-    purpose: 'Live 3D prop on the hub stage',
+    purpose: 'Stage prop (retired in hub rework)',
     credits: 30,
   },
   {

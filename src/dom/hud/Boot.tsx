@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrambleTextPlugin)
 const LINES = [
   '> C.CANTRELL OS v2.6',
   '> NEURAL CORE ............ ONLINE',
-  '> PROJECT GRAPH .......... 7 NODES',
+  '> PROJECT GRAPH .......... 6 NODES',
   '> TELEMETRY .............. VERIFIED',
   '> ACCESS GRANTED',
 ]
