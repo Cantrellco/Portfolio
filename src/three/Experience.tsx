@@ -25,8 +25,8 @@ export function Experience() {
         camera={{ fov: 38, near: 0.1, far: 60, position: [0, 0.2, 6] }}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
       >
-        <color attach="background" args={['#0a0b0d']} />
-        <fog attach="fog" args={['#0a0b0d', 10, 26]} />
+        <color attach="background" args={['#050a12']} />
+        <fog attach="fog" args={['#050a12', 10, 26]} />
         <FrameBridge />
         <CameraRig />
         <DevicesScene />

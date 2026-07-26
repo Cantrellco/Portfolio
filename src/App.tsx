@@ -25,7 +25,8 @@ export default function App() {
     const d = sceneState.reducedMotion ? 0.3 : 1
     const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } })
     entrance
-      .fromTo('.hero__title', { y: 44 * d, opacity: 0 }, { y: 0, opacity: 1, duration: d })
+      .fromTo('.hero__eyebrow', { opacity: 0 }, { opacity: 1, duration: d * 0.5 })
+      .fromTo('.hero__title', { y: 44 * d, opacity: 0 }, { y: 0, opacity: 1, duration: d }, '-=0.2')
       .fromTo(
         '.hero__sub',
         { y: 24 * d, opacity: 0 },
@@ -47,6 +48,10 @@ export default function App() {
       <Nav />
       <main className="page">
         <header className="hero" id="hero">
+          <p className="hero__eyebrow">
+            <span className="pulse" aria-hidden="true" />
+            SYSTEM ONLINE — PORTFOLIO // 2026
+          </p>
           <h1 className="hero__title">
             I ship Apple-grade software at <em>AI speed</em>.
           </h1>
