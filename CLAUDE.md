@@ -47,7 +47,11 @@ catalog, design taste). `docs/research-raw.json` is the full research dump.
 ## Status ledger
 
 Done: research, brief, scaffold, spine (Lenis+ScrollTrigger+camera rig), Phase 2
-flagship v1 (procedural devices, real screens, choreography, callout rail).
-Next: S3 build-log replay (bake real Claude Code session excerpts to JSON),
-alcoves (S4), receipts (S5), Higgsfield asset run, preloader, audio, concierge
-agent (Phase 5), perf/a11y hardening, deploy (Vercel + custom domain).
+flagship v1 (procedural devices, real screens, choreography, callout rail),
+S3 build-log replay v1 (`src/lib/buildLog.ts` — REAL events only, keep honest),
+S4 work grid v1 (case-study cards), device exit choreography.
+Next: S5 receipts w/ real data, 3D alcove staging + Higgsfield asset run
+(props/stills/loops, log every generation), 3D scene assembly sync behind S3,
+preloader, audio + mute, concierge agent (Phase 5), S6 process/contact real
+content, mobile tiers + perf (code-split three, webp/KTX2) + a11y, deploy
+(Vercel — needs Cody to create the free account; interim preview = local dev).
