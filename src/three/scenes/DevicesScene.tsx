@@ -5,6 +5,7 @@ import {
   Float,
   Lightformer,
   MeshReflectorMaterial,
+  useGLTF,
   useTexture,
 } from '@react-three/drei'
 import * as THREE from 'three'
@@ -50,6 +51,38 @@ function Backdrop() {
     </mesh>
   )
 }
+
+/**
+ * AI-generated stage prop (Higgsfield concept → Meshy GLB, logged in
+ * aiPipeline.ts). Normalized to a target size, floated on the holo stage.
+ */
+function Prop({
+  url,
+  position,
+  size,
+  rotationY = 0,
+}: {
+  url: string
+  position: [number, number, number]
+  size: number
+  rotationY?: number
+}) {
+  const { scene } = useGLTF(url, false, true)
+  const scale = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(scene)
+    const dim = new THREE.Vector3()
+    box.getSize(dim)
+    return size / Math.max(dim.x, dim.y, dim.z)
+  }, [scene, size])
+  return (
+    <Float speed={1.6} rotationIntensity={0.25} floatIntensity={0.5}>
+      <primitive object={scene} position={position} scale={scale} rotation={[0, rotationY, 0]} />
+    </Float>
+  )
+}
+
+useGLTF.preload('/assets/props/dumbbell.glb', false, true)
+useGLTF.preload('/assets/props/cup.glb', false, true)
 
 /** Hologram pedestal + slow-turning HUD rings under the devices. */
 function HoloRig() {
@@ -113,6 +146,8 @@ export function DevicesScene() {
       <Suspense fallback={null}>
         <Backdrop />
         <HoloRig />
+        <Prop url="/assets/props/dumbbell.glb" position={[-0.7, -2.05, 1.5]} size={1.0} rotationY={0.5} />
+        <Prop url="/assets/props/cup.glb" position={[4.3, -2.15, 1.2]} size={0.65} rotationY={-0.4} />
         <Float
           speed={1.1}
           rotationIntensity={0.08 * floatScale}
