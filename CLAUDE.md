@@ -44,15 +44,20 @@ catalog, design taste). `docs/research-raw.json` is the full research dump.
 - three.js chunk ~1.2MB: code-split + KTX2/webp compression queued for the perf
   pass (Phase 6), not yet done.
 
-## Design direction (locked 2026-07-26, per Cody)
+## Design direction (locked 2026-07-26, per Cody — ref: JARVIS Rainmeter theme)
 
-**JARVIS/Iron-Man HUD.** Hologram cyan `#38d6ff` on deep navy `#050a12`; type =
-Rajdhani (display) / Michroma (HUD labels) / Share Tech Mono (readouts) / Inter
-(body); HUD grid overlay, corner-bracket panels, scanlines, status eyebrows.
-Cody has reference images not yet delivered (couldn't be located on disk) —
-refine against them when they arrive. NEVER quote Cody's prompts in site
-content (standing feedback). Devices must look photoreal-procedural: extruded
-chamfered slabs + Lightformer env reflections, first-frame pose snap.
+**THE RADIAL HUB.** The site IS a JARVIS command center: arc-reactor core at
+center (`src/dom/hud/Reactor.tsx`), every project a circular holo-node
+stemming from it (`src/dom/hub/Hub.tsx` — angle/radius in
+`src/lib/projects.ts` `node`), animated dashed wire traces, node click →
+`FILE //` overlay (`src/dom/hub/FileOverlay.tsx`; Workout Buddy = flagship
+dossier). Below the hub: SYSTEM LOG / TELEMETRY / COMMS screens. Palette:
+hologram cyan `#38d6ff` on deep navy `#050a12`, amber `--warn` for flagship
+accents, one red arc on the reactor. Type: Rajdhani / Michroma / Share Tech
+Mono / Inter. Native scroll (Lenis removed). The old scroll-Keynote device
+choreography is retired; `PhoneModel`/`WatchModel` remain for possible reuse
+inside overlays. NEVER quote Cody's prompts in site content. When Cody pivots
+direction, the change must be TOTAL — he twice rejected partial reskins.
 
 ## Status ledger
 
