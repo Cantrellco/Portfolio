@@ -65,6 +65,12 @@ export const aiPipeline: PipelineEntry[] = [
     purpose: 'Breathing video core behind the hub',
     credits: 7.5,
   },
+  {
+    asset: 'Orchestration lattice plate',
+    model: 'nano_banana_2',
+    purpose: 'AI-dev deck backdrop (17 KB webp, 71× compressed)',
+    credits: 2,
+  },
 ]
 
 export const pipelineTotal = () => aiPipeline.reduce((sum, e) => sum + e.credits, 0)

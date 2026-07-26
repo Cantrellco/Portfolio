@@ -173,7 +173,9 @@ export function Hub() {
           <span className="hubnode__ring" aria-hidden="true" />
           <span className="hubnode__target" aria-hidden="true" />
           <span className="hubnode__thumb">
-            {p.media?.[0] && <img src={p.media[0].src} alt="" loading="lazy" />}
+            {(p.shots?.node ?? p.media?.[0]?.src) && (
+              <img src={p.shots?.node ?? p.media![0].src} alt="" loading="lazy" />
+            )}
           </span>
           <span className="hubnode__label">{p.name.toUpperCase()}</span>
           <span className="hubnode__readout">{p.node.readout}</span>

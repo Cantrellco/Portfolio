@@ -120,7 +120,32 @@ function Shell({
   )
 }
 
-/** Generic project file — hero banner, meta chips, case-study modules. */
+/** Browser-chrome frame around a desktop capture. */
+function BrowserFrame({ src, alt, url }: { src: string; alt: string; url?: string }) {
+  return (
+    <div className="browserframe">
+      <div className="browserframe__bar" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <span>{url ?? 'PREVIEW // PRODUCTION BUILD'}</span>
+      </div>
+      <img src={src} alt={alt} />
+    </div>
+  )
+}
+
+/** Phone frame around a mobile/app capture. */
+function PhoneFrame({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="phoneframe">
+      <span className="phoneframe__island" aria-hidden="true" />
+      <img src={src} alt={alt} />
+    </div>
+  )
+}
+
+/** Generic project file — device-framed showcase, case-study modules. */
 export function FileOverlay({
   project,
   origin,
@@ -130,18 +155,25 @@ export function FileOverlay({
   origin?: FileOrigin
   onClose: () => void
 }) {
-  const hero = project.media?.[0]
+  const hero = project.shots?.hero ?? project.media?.[0]?.src
   const rest = project.media?.slice(1) ?? []
   return (
     <Shell title={`FILE // ${project.name.toUpperCase()}`} onClose={onClose} origin={origin}>
-      {hero && (
-        <figure className="file__hero">
-          <img src={hero.src} alt={hero.alt} />
-          <figcaption>
-            <span>◈ CAPTURE // LIVE PRODUCT</span>
-            <span>{hero.alt.toUpperCase()}</span>
-          </figcaption>
-        </figure>
+      {project.appShots ? (
+        <div className="file__appshots">
+          {project.appShots.map((s) => (
+            <PhoneFrame key={s} src={s} alt={`${project.name} app screen`} />
+          ))}
+        </div>
+      ) : (
+        hero && (
+          <div className="file__showcase">
+            <BrowserFrame src={hero} alt={`${project.name} — live product`} url={project.url} />
+            {project.shots?.mobile && (
+              <PhoneFrame src={project.shots.mobile} alt={`${project.name} on mobile`} />
+            )}
+          </div>
+        )
       )}
       <p className="file__tagline">{project.tagline}</p>
       <ul className="work__tech" aria-label="Technology">
@@ -164,11 +196,13 @@ export function FileOverlay({
           </ul>
         </Panel>
       </div>
-      {rest.length > 0 && (
+      {(project.shots?.interior || rest.length > 0) && (
         <div className="file__media">
-          {rest.map((m) => (
-            <img key={m.src} src={m.src} alt={m.alt} loading="lazy" />
-          ))}
+          {project.shots?.interior && (
+            <img src={project.shots.interior} alt={`${project.name} — interior view`} loading="lazy" />
+          )}
+          {!project.shots?.interior &&
+            rest.map((m) => <img key={m.src} src={m.src} alt={m.alt} loading="lazy" />)}
         </div>
       )}
       {project.link && (

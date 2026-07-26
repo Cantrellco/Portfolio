@@ -22,10 +22,10 @@ export const journey: Scene[] = [
   },
   {
     id: 'build-log',
-    eyebrow: 'System log — how I work with AI',
+    eyebrow: 'AI dev // orchestration deck',
     title: 'Agents draft. I direct and verify.',
     copy:
-      'My workflow, shown rather than described: I brief agent fleets, review what comes back, and verify every change against real screenshots and tests before it ships. Below is that loop from this site’s own history — each line checkable in the public repo.',
+      'This is the loop running live on the repo you are looking at: brief a fleet, review what comes back, verify every change against a real screenshot, ship. Step through any line — the hash opens the diff.',
     depth: 'mid',
   },
   {

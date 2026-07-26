@@ -12,8 +12,17 @@ export interface Project {
   approach: string
   results: string[]
   link?: string
+  /** Live URL shown in the browser-frame chrome. */
+  url?: string
   /** Real screenshots/collages captured from the shipped work. */
   media?: { src: string; alt: string }[]
+  /**
+   * Purpose-composed capture pack (deep-dive pass): desktop hero +
+   * interior for the browser frame, mobile for the phone frame, square
+   * node thumb for the hub. App-only projects use appShots instead.
+   */
+  shots?: { hero?: string; interior?: string; mobile?: string; node?: string }
+  appShots?: string[]
   /** Hub constellation placement: angle (deg, 0 = east, CCW) + radius/size multipliers. */
   node: { angle: number; radius: number; size: number; readout: string }
 }
@@ -21,6 +30,12 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 'harvest',
+    appShots: [
+      '/assets/projects/harvest-app-1.jpg',
+      '/assets/projects/harvest-app-2.jpg',
+      '/assets/projects/harvest-app-3.jpg',
+    ],
+    shots: { node: '/assets/projects/harvest-hero.jpg' },
     node: { angle: 30, radius: 1.0, size: 1.0, readout: '31,100 VERSES OFFLINE' },
     media: [
       { src: '/assets/projects/harvest-hero.jpg', alt: 'The Harvest app icon — radiant wheat sheaf' },
@@ -47,6 +62,12 @@ export const projects: Project[] = [
       { src: '/assets/projects/fusion-coffee-2.jpg', alt: 'Our Story section with sunlit shop photography' },
     ],
     name: 'Fusion Coffee',
+    shots: {
+      hero: '/assets/projects/fusion-coffee-hero.jpg',
+      interior: '/assets/projects/fusion-coffee-2.jpg',
+      mobile: '/assets/projects/fusion-coffee-mobile.jpg',
+      node: '/assets/projects/fusion-coffee-node.jpg',
+    },
     tagline: 'Marketing site for a real specialty coffee shop.',
     tech: ['Next.js 14', 'Static export', 'PWA'],
     challenge: 'A downtown coffee shop needed a site that looks like the brand tastes — on a small-business budget.',
@@ -57,6 +78,12 @@ export const projects: Project[] = [
   },
   {
     id: 'little-town',
+    shots: {
+      hero: '/assets/projects/little-town-hero.jpg',
+      interior: '/assets/projects/little-town-2.jpg',
+      mobile: '/assets/projects/little-town-mobile.jpg',
+      node: '/assets/projects/little-town-node.jpg',
+    },
     node: { angle: 210, radius: 1.04, size: 0.9, readout: '0 DEPENDENCIES // 37 ASSETS' },
     media: [
       { src: '/assets/projects/little-town-hero.jpg', alt: 'Little Town Playhouse homepage with bespoke illustration' },
@@ -71,6 +98,13 @@ export const projects: Project[] = [
   },
   {
     id: 'faith-outreach',
+    url: 'fochurch.org',
+    shots: {
+      hero: '/assets/projects/faith-outreach-hero.jpg',
+      interior: '/assets/projects/faith-outreach-2.jpg',
+      mobile: '/assets/projects/faith-outreach-mobile.jpg',
+      node: '/assets/projects/faith-outreach-node.jpg',
+    },
     node: { angle: 0, radius: 1.0, size: 0.9, readout: 'ZERO-DOWNTIME RELAUNCH' },
     media: [
       { src: '/assets/projects/faith-outreach-hero.jpg', alt: 'fochurch.org homepage hero after the redesign' },
@@ -86,6 +120,12 @@ export const projects: Project[] = [
   },
   {
     id: 'pc-pro',
+    shots: {
+      hero: '/assets/projects/pc-pro-hero.jpg',
+      interior: '/assets/projects/pc-pro-2.jpg',
+      mobile: '/assets/projects/pc-pro-mobile.jpg',
+      node: '/assets/projects/pc-pro-node.jpg',
+    },
     node: { angle: 330, radius: 1.02, size: 0.85, readout: 'BACKENDLESS LEADS' },
     media: [
       { src: '/assets/projects/pc-pro-hero.jpg', alt: 'PC Pro Inspections homepage hero' },

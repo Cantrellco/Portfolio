@@ -3,7 +3,7 @@ import { scrollToSection } from '../../lib/scroll'
 
 const SECTIONS = [
   { href: '#hub', label: 'HUB' },
-  { href: '#build-log', label: 'SYSTEM LOG' },
+  { href: '#build-log', label: 'AI DEV' },
   { href: '#receipts', label: 'TELEMETRY' },
   { href: '#process', label: 'COMMS' },
 ]

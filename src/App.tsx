@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { Experience } from './three/Experience'
 import { initSmoothScroll } from './lib/scroll'
 import { sceneState } from './lib/sceneState'
-import { BuildLog } from './dom/BuildLog'
+import { AiDev } from './dom/aidev/AiDev'
 import { Receipts } from './dom/Receipts'
 import { Process } from './dom/Process'
 import { Hub } from './dom/hub/Hub'
@@ -69,7 +69,7 @@ export default function App() {
       {!booted && <Boot onDone={() => setBooted(true)} />}
       <main className="page">
         <Hub />
-        <BuildLog />
+        <AiDev />
         <Receipts />
         <Process />
       </main>
