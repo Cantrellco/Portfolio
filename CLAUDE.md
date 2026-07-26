@@ -44,6 +44,16 @@ catalog, design taste). `docs/research-raw.json` is the full research dump.
 - three.js chunk ~1.2MB: code-split + KTX2/webp compression queued for the perf
   pass (Phase 6), not yet done.
 
+## Design direction (locked 2026-07-26, per Cody)
+
+**JARVIS/Iron-Man HUD.** Hologram cyan `#38d6ff` on deep navy `#050a12`; type =
+Rajdhani (display) / Michroma (HUD labels) / Share Tech Mono (readouts) / Inter
+(body); HUD grid overlay, corner-bracket panels, scanlines, status eyebrows.
+Cody has reference images not yet delivered (couldn't be located on disk) —
+refine against them when they arrive. NEVER quote Cody's prompts in site
+content (standing feedback). Devices must look photoreal-procedural: extruded
+chamfered slabs + Lightformer env reflections, first-frame pose snap.
+
 ## Status ledger
 
 Done: research, brief, scaffold, spine (Lenis+ScrollTrigger+camera rig), Phase 2
