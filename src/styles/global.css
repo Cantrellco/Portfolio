@@ -1,0 +1,185 @@
+/* ---------- fonts (self-hosted, subset later in the perf pass) ---------- */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('/fonts/InterVariable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ---------- design tokens ---------- */
+:root {
+  --ink: #0a0b0d;
+  --ink-raise: #121417;
+  --text: #f2f4f3;
+  --text-muted: #98a29e;
+  --accent: #00e5a0; /* teal-green, one register brighter than Five Pack's #00C391 for dark ground */
+  --accent-dim: #0b8f68;
+  --hairline: rgba(242, 244, 243, 0.12);
+
+  --font-display: 'Clash Display', 'Avenir Next', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'SF Pro Text', system-ui, sans-serif;
+
+  --space-gutter: clamp(1.25rem, 4vw, 4rem);
+  --width-copy: 34rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns smoothing */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* ---------- canvas + page layering ---------- */
+.webgl {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* raycast interactions re-enable per-scene later */
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- scene sections (spine skeleton) ---------- */
+.scene {
+  position: relative;
+  display: grid;
+  align-content: center;
+  padding: 0 var(--space-gutter);
+  min-height: 100svh;
+}
+
+.scene[data-depth='deep'] {
+  min-height: 300svh;
+  align-content: start;
+  padding-top: 38svh;
+}
+.scene[data-depth='mid'] {
+  min-height: 180svh;
+  align-content: start;
+  padding-top: 34svh;
+}
+
+.scene__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 560;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.1rem;
+}
+
+.scene__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 6.5vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0 0 1.4rem;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.scene__copy {
+  color: var(--text-muted);
+  max-width: var(--width-copy);
+  margin: 0;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+}
+
+/* ---------- hero ---------- */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: 0 var(--space-gutter);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 6.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 12ch;
+  text-wrap: balance;
+}
+
+.hero__title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero__sub {
+  margin: 1.6rem 0 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  max-width: 30rem;
+}
+
+/* ---------- a11y ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
