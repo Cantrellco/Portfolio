@@ -1,8 +1,29 @@
-import { Suspense } from 'react'
-import { Float, MeshReflectorMaterial } from '@react-three/drei'
+import { Suspense, useMemo } from 'react'
+import { Float, MeshReflectorMaterial, useTexture } from '@react-three/drei'
+import * as THREE from 'three'
 import { PhoneModel } from '../devices/PhoneModel'
 import { WatchModel } from '../devices/WatchModel'
 import { sceneState } from '../../lib/sceneState'
+
+/**
+ * Generated studio environment plate (Higgsfield, logged in aiPipeline.ts)
+ * as a far backdrop. fog=false so distance doesn't swallow it; the
+ * reflective floor picks up its glow.
+ */
+function Backdrop() {
+  const texture = useTexture('/assets/env/studio.jpg')
+  useMemo(() => {
+    texture.colorSpace = THREE.SRGBColorSpace
+  }, [texture])
+  return (
+    // scale-x flipped: the plate's light column lands behind the devices
+    // (right), leaving the dark side behind the headline.
+    <mesh position={[1.5, 1.6, -15]} scale={[-1, 1, 1]}>
+      <planeGeometry args={[46, 25.7]} />
+      <meshBasicMaterial map={texture} fog={false} toneMapped={false} opacity={0.92} transparent />
+    </mesh>
+  )
+}
 
 /**
  * The Keynote stage: both devices + the studio light rig. Devices live near
@@ -14,6 +35,7 @@ export function DevicesScene() {
   return (
     <>
       <Suspense fallback={null}>
+        <Backdrop />
         <Float
           speed={1.1}
           rotationIntensity={0.08 * floatScale}

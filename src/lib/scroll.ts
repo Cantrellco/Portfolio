@@ -11,6 +11,16 @@ export interface SmoothScroll {
   destroy: () => void
 }
 
+let activeLenis: Lenis | null = null
+
+/** Smooth-scroll to an anchor (used by nav) so the 3D journey plays through. */
+export function scrollToSection(hash: string): void {
+  const el = document.querySelector(hash)
+  if (!el) return
+  if (activeLenis) activeLenis.scrollTo(el as HTMLElement, { duration: 1.6 })
+  else el.scrollIntoView({ behavior: 'smooth' })
+}
+
 /**
  * One shared clock (BUILD-BRIEF §3): gsap.ticker drives Lenis, Lenis drives
  * ScrollTrigger, ScrollTrigger scrubs mutate sceneState, and requestFrame()
@@ -21,6 +31,7 @@ export function initSmoothScroll(): SmoothScroll {
     autoRaf: false,
     lerp: sceneState.reducedMotion ? 1 : 0.11,
   })
+  activeLenis = lenis
 
   lenis.on('scroll', ScrollTrigger.update)
 
@@ -54,6 +65,7 @@ export function initSmoothScroll(): SmoothScroll {
       window.removeEventListener('pointermove', onPointerMove)
       master.kill()
       gsap.ticker.remove(tick)
+      if (activeLenis === lenis) activeLenis = null
       lenis.destroy()
     },
   }

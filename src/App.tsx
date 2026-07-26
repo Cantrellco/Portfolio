@@ -1,28 +1,15 @@
 import { useEffect } from 'react'
+import gsap from 'gsap'
 import { Experience } from './three/Experience'
 import { initSmoothScroll } from './lib/scroll'
 import { setupChoreography } from './lib/choreography'
-import { journey } from './lib/journey'
+import { sceneState } from './lib/sceneState'
 import { Flagship } from './dom/Flagship'
 import { Work } from './dom/Work'
 import { BuildLog } from './dom/BuildLog'
-
-/** Generic copy section rendered from the journey definition. */
-function JourneySection({ id }: { id: string }) {
-  const scene = journey.find((s) => s.id === id)
-  if (!scene) return null
-  return (
-    <section
-      id={scene.id}
-      className="scene"
-      data-depth={scene.depth === 'flat' ? undefined : scene.depth}
-    >
-      <p className="scene__eyebrow">{scene.eyebrow}</p>
-      <h2 className="scene__title">{scene.title}</h2>
-      <p className="scene__copy">{scene.copy}</p>
-    </section>
-  )
-}
+import { Nav } from './dom/Nav'
+import { Receipts } from './dom/Receipts'
+import { Process } from './dom/Process'
 
 /**
  * Page shell: DOM copy (crawlable, LCP = hero headline) over the fixed canvas.
@@ -32,7 +19,23 @@ export default function App() {
   useEffect(() => {
     const smooth = initSmoothScroll()
     const teardownChoreography = setupChoreography()
+
+    // Entrance: headline rises, sub + nav follow. Scaled down, never skipped,
+    // under reduced motion.
+    const d = sceneState.reducedMotion ? 0.3 : 1
+    const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } })
+    entrance
+      .fromTo('.hero__title', { y: 44 * d, opacity: 0 }, { y: 0, opacity: 1, duration: d })
+      .fromTo(
+        '.hero__sub',
+        { y: 24 * d, opacity: 0 },
+        { y: 0, opacity: 1, duration: d * 0.8 },
+        '-=0.55',
+      )
+      .fromTo('.nav', { opacity: 0 }, { opacity: 1, duration: d * 0.6 }, '-=0.4')
+
     return () => {
+      entrance.kill()
       teardownChoreography()
       smooth.destroy()
     }
@@ -41,6 +44,7 @@ export default function App() {
   return (
     <>
       <Experience />
+      <Nav />
       <main className="page">
         <header className="hero" id="hero">
           <h1 className="hero__title">
@@ -55,8 +59,8 @@ export default function App() {
 
         <BuildLog />
         <Work />
-        <JourneySection id="receipts" />
-        <JourneySection id="process" />
+        <Receipts />
+        <Process />
       </main>
     </>
   )
